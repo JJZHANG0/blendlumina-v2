@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    body { background: #f5f0e8; }
+    .reg-page {
+      min-height: calc(100vh - 60px); display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .reg-visual { position: relative; overflow: hidden; min-height: 400px; }
+    .reg-visual img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .reg-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(45,106,106,0.85), rgba(10,60,40,0.7));
+    }
+    .reg-visual-content {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; z-index: 2; text-align: center; padding: 40px;
+    }
+    .reg-logo { font-family: 'Noto Serif SC', serif; font-size: 34px; font-weight: 700; color: #fff; letter-spacing: 4px; margin-bottom: 16px; }
+    .reg-benefits { list-style: none; padding: 0; margin: 0; }
+    .reg-benefits li { font-size: 13px; color: #c0e8d8; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .reg-benefits li i { color: #7ecbd8; }
+
+    .reg-form-area {
+      background: #fff; display: flex; align-items: center; justify-content: center; padding: 48px 40px;
+    }
+    .reg-box { width: 100%; max-width: 440px; }
+    .reg-box h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+    .reg-box .subtitle { font-size: 14px; color: #8a7a6a; margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-input {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #e0d8c8;
+      border-radius: 6px; font-size: 14px; color: #1a1a1a;
+      background: #faf8f4; transition: border-color 0.2s; box-sizing: border-box;
+    }
+    .form-input:focus { outline: none; border-color: #2d6a6a; background: #fff; }
+    .form-select {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #e0d8c8;
+      border-radius: 6px; font-size: 14px; color: #1a1a1a;
+      background: #faf8f4; transition: border-color 0.2s; cursor: pointer;
+    }
+    .agree-row {
+      display: flex; align-items: flex-start; gap: 8px; margin-bottom: 20px;
+    }
+    .agree-row input { accent-color: #2d6a6a; margin-top: 3px; }
+    .agree-row label { font-size: 12px; color: #5a5040; line-height: 1.7; }
+    .agree-row label a { color: #2d6a6a; text-decoration: none; }
+    .agree-row label a:hover { text-decoration: underline; }
+
+    .btn-register {
+      display: block; width: 100%; padding: 14px; background: #2d6a6a;
+      color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; margin-bottom: 16px;
+    }
+    .btn-register:hover { background: #1e4e4e; }
+    .login-link { text-align: center; font-size: 14px; color: #5a5040; }
+    .login-link a { color: #2d6a6a; text-decoration: none; font-weight: 600; }
+    .login-link a:hover { text-decoration: underline; }
+    .success-msg { color: #2d6a6a; font-size: 13px; margin-top: 8px; display: none; }
+    .success-msg.show { display: block; }
+
+    @media (max-width: 768px) {
+      .reg-page { grid-template-columns: 1fr; }
+      .reg-visual { min-height: 180px; }
+      .reg-form-area { padding: 36px 20px; }
+      .form-row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <div class="reg-page">
+    <div class="reg-visual">
+      <img src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560" alt="注册背景">
+      <div class="reg-visual-overlay"></div>
+      <div class="reg-visual-content">
+        <p class="reg-logo">Blend Lumina</p>
+        <ul class="reg-benefits">
+          <li><i class="fas fa-check-circle"></i> 收藏心仪的艺术作品</li>
+          <li><i class="fas fa-check-circle"></i> 追踪喜爱的艺术家</li>
+          <li><i class="fas fa-check-circle"></i> 个性化推荐，发现更多好作品</li>
+          <li><i class="fas fa-check-circle"></i> 申请成为平台艺术家</li>
+          <li><i class="fas fa-check-circle"></i> 专属会员价与活动优先报名</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reg-form-area">
+      <div class="reg-box">
+        <h2>创建你的账号</h2>
+        <p class="subtitle">加入 Blend Lumina，探索中国艺术之美</p>
+
+        <form id="reg-form" onsubmit="handleRegister(event)">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>姓名</label>
+              <input id="reg-name" type="text" class="form-input" placeholder="真实姓名">
+            </div>
+            <div class="form-group">
+              <label>昵称</label>
+              <input id="reg-nickname" type="text" class="form-input" placeholder="显示名称">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>邮箱地址</label>
+            <input id="reg-email" type="email" class="form-input" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>手机号码</label>
+            <input id="reg-phone" type="tel" class="form-input" placeholder="1xxxxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label>密码</label>
+            <input id="reg-pwd" type="password" class="form-input" placeholder="至少8位，含字母和数字">
+          </div>
+          <div class="form-group">
+            <label>确认密码</label>
+            <input id="reg-pwd2" type="password" class="form-input" placeholder="再次输入密码">
+          </div>
+          <div class="form-group">
+            <label>我是</label>
+            <select id="reg-role" class="form-select">
+              <option value="collector">艺术收藏者</option>
+              <option value="artist">艺术创作者</option>
+              <option value="both">两者都是</option>
+            </select>
+          </div>
+          <div class="agree-row">
+            <input type="checkbox" id="agree-terms" required>
+            <label for="agree-terms">我已阅读并同意 <a href="#">服务条款</a> 与 <a href="#">隐私政策</a>。同意平台收集我的信息用于个性化推荐。</label>
+          </div>
+          <p class="success-msg" id="reg-success">注册成功！正在跳转...</p>
+          <button type="submit" class="btn-register"><i class="fas fa-user-plus"></i> 立即注册</button>
+        </form>
+        <p class="login-link">已有账号？<a href="login.html">立即登录</a></p>
+        <p style="text-align:center;margin-top:12px;"><a href="artist-apply.html" style="font-size:13px;color:#8a7a6a;text-decoration:none;"><i class="fas fa-paint-brush"></i> 艺术家专属入驻通道</a></p>
+      </div>
+    </div>
+  </div>
+  <script src="js/common.js"></script>
+  <script>
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const pwd = document.getElementById('reg-pwd').value;
+      const pwd2 = document.getElementById('reg-pwd2').value;
+      const role = document.getElementById('reg-role').value;
+
+      if (!name || !email || !pwd) { alert('请填写完整信息'); return; }
+      if (pwd !== pwd2) { alert('两次密码不一致'); return; }
+      if (pwd.length < 8) { alert('密码至少需要8位'); return; }
+
+      const users = JSON.parse(localStorage.getItem('bl_users') || '[]');
+      if (users.find(u => u.email === email)) { alert('该邮箱已注册'); return; }
+
+      const newUser = { name, email, phone, password: pwd, role, createdAt: Date.now() };
+      users.push(newUser);
+      localStorage.setItem('bl_users', JSON.stringify(users));
+      localStorage.setItem('bl_current_user', JSON.stringify(newUser));
+
+      document.getElementById('reg-success').classList.add('show');
+      setTimeout(() => {
+        if (role === 'artist') {
+          window.location.href = 'artist-apply.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

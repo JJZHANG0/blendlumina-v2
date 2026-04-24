@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>艺术鉴赏 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .art-banner {
+      position: relative; width: 100%; height: 440px;
+      overflow: hidden; background: #0a0a1a;
+    }
+    .art-banner img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+    }
+    .art-banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+    }
+    .art-banner-content {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1200px;
+      padding: 40px var(--page-gutter);
+      z-index: 3;
+    }
+    .art-banner-content .tag { font-size: 11px; color: #d4b080; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+    .art-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 40px; font-weight: 700; color: #fff;
+      letter-spacing: 5px; margin-bottom: 10px; max-width: 600px;
+    }
+    .art-banner-content p { font-size: 14px; color: #d0c8b0; max-width: 500px; line-height: 1.9; }
+
+    .main-layout {
+      max-width: 1200px; margin: 0 auto; padding: 48px 24px 60px;
+      display: grid; grid-template-columns: 1fr 320px; gap: 48px;
+    }
+
+    /* Article list */
+    .article-list { display: flex; flex-direction: column; gap: 32px; }
+    .article-card {
+      display: grid; grid-template-columns: 280px 1fr; gap: 24px;
+      border: 1px solid #e8e0d0; border-radius: 12px; overflow: hidden;
+      text-decoration: none; background: #fff; transition: box-shadow 0.2s;
+    }
+    .article-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .article-card img { width: 100%; height: 200px; object-fit: cover; }
+    .article-content { padding: 24px 24px 24px 0; }
+    .article-cat { font-size: 11px; color: #2d6a6a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .article-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 18px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 10px; line-height: 1.4;
+    }
+    .article-desc { font-size: 13px; color: #5a5040; line-height: 1.9; margin-bottom: 16px; }
+    .article-meta { display: flex; align-items: center; gap: 16px; font-size: 12px; color: #a0906a; }
+
+    /* Sidebar */
+    .sidebar {}
+    .sidebar-widget { margin-bottom: 32px; }
+    .sidebar-widget h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 2px solid #2d6a6a;
+    }
+    .sidebar-article { display: flex; gap: 12px; margin-bottom: 16px; text-decoration: none; }
+    .sidebar-article img { width: 72px; height: 72px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .sidebar-article-info {}
+    .sidebar-article-title { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.4; margin-bottom: 4px; }
+    .sidebar-article-title:hover { color: #2d6a6a; }
+    .sidebar-article-meta { font-size: 11px; color: #a0906a; }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-cloud a {
+      display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px;
+      border: 1px solid #e0d8c8; color: #5a5040; text-decoration: none; transition: all 0.2s;
+    }
+    .tag-cloud a:hover { background: #2d6a6a; color: #fff; border-color: #2d6a6a; }
+
+    @media (max-width: 900px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .art-banner { height: 320px; }
+      .art-banner-content h1 { font-size: 28px; }
+      .article-card { grid-template-columns: 1fr; }
+      .article-card img { height: 200px; }
+      .article-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <!-- BANNER -->
+    <section class="art-banner">
+      <img
+        src="https://sspark.genspark.ai/cfimages?u1=nqgYP75MGxcl8TXN%2B%2Bf%2B%2BPMcT%2BEVk0%2BjkTAI1%2F4Apdf9QCrQNX0btYz0ovXalj1aJZZceptSvqMuB%2FiJCQt5x5lBR7JP2AUsdWY2iU7yLAAE9nZecYMncZ0rqeq%2Fmy9s4dQ%2BQLnnWmSR9jZAMiXsDkcopY6JbT2ozw%3D%3D&u2=I9ypk1Zgcu7TMN9q&width=2560"
+        alt="艺术鉴赏·中国山水"
+      >
+      <div class="art-banner-overlay"></div>
+      <div class="art-banner-content">
+        <p class="tag">Art Appreciation · 艺术鉴赏</p>
+        <h1>读懂艺术，看见故事</h1>
+        <p>深度解读每一件作品背后的创作故事与文化脉络，帮助你真正理解艺术的价值。</p>
+      </div>
+    </section>
+
+    <div class="main-layout">
+      <!-- ARTICLES -->
+      <main>
+        <div class="article-list">
+          <a href="article-indigo-philosophy.html" class="article-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560"
+              alt="靛蓝的哲学"
+            >
+            <div class="article-content">
+              <p class="article-cat">非遗 · 染织</p>
+              <h2 class="article-title">靛蓝的哲学：为什么扎染是最有温度的艺术</h2>
+              <p class="article-desc">当一块棉布被棉线束缚、放入靛蓝液中浸染，随后展开——它变成了独一无二的自己。扎染不是复制，是创造不可预测的美。</p>
+              <div class="article-meta">
+                <span><i class="fas fa-user"></i> 云染工坊·段梅</span>
+                <span><i class="fas fa-calendar"></i> 2025年4月</span>
+                <span><i class="fas fa-clock"></i> 8分钟阅读</span>
+              </div>
+            </div>
+          </a>
+          <a href="article-bamboo-time.html" class="article-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=mAdP6tPhy%2FyslYoo0c96tTqzC69QsYvDTvO%2Bu2QInzJFRzpWCPt%2FAJ7A37dQCywR60adYzzwpAzi3EYZeXrk7AKdkjzTbIBHlZ5UbuoTdOVoKiqABTshnDweSc4r%2Bl8vOWmHxZMwQ6ku%2Fb%2B8wsOMH4334DPx7GORu3AROBRmhPDHHhuda8jBYrosLrai6MZQm%2Ffj3mObJeq%2BJSC%2F7oAR2BD%2FYK34gQr0dgj9AStjHdLtRmPIPNp82jzqKhsl8E75qUtzEdN3BQJAOcI%3D&u2=nKeZynzsu5%2BT27hq&width=2560"
+              alt="竹编的时间"
+            >
+            <div class="article-content">
+              <p class="article-cat">民间手作 · 竹编</p>
+              <h2 class="article-title">竹编的时间：一根竹子需要多少年才能成为艺术</h2>
+              <p class="article-desc">从砍竹到刮篾，再到编织、上漆，竹编是时间的慢速雕刻。桂竹师傅告诉我们，速度永远不是这门手艺的语言。</p>
+              <div class="article-meta">
+                <span><i class="fas fa-user"></i> 桂竹手艺工坊</span>
+                <span><i class="fas fa-calendar"></i> 2025年3月</span>
+                <span><i class="fas fa-clock"></i> 6分钟阅读</span>
+              </div>
+            </div>
+          </a>
+          <a href="article-city-release.html" class="article-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=kpWH6oPQ2tQbXgpxsaOIgXITEdr8BvgmIvQZBKsaWIDIJamcDgVinOOzLQYdPi40lLI8%2FD7x2583%2BTxx06D9K8h2QS%2BNxpTQOpvm2kbjkEKPbUfeefVHu0GjmftJu6bSLHTSiKQkrGbT2FfFM0hniLry70tirFP6md58clsmNMqdsIXgU50JgJgFxiPf6b917GtAOqg%3D%3D&u2=zTV90mCjVtEX%2BZab&width=2560"
+              alt="青年艺术家的城市"
+            >
+            <div class="article-content">
+              <p class="article-cat">青年创作 · 专访</p>
+              <h2 class="article-title">释放：专访80后艺术家，关于城市、孤独与创作的对话</h2>
+              <p class="article-desc">在上海的一间小工作室里，王磊每天面对画布和内心的喧嚣。他说，艺术不是逃避，而是另一种重新理解现实的方式。</p>
+              <div class="article-meta">
+                <span><i class="fas fa-user"></i> Blend Lumina 编辑部</span>
+                <span><i class="fas fa-calendar"></i> 2025年2月</span>
+                <span><i class="fas fa-clock"></i> 12分钟阅读</span>
+              </div>
+            </div>
+          </a>
+          <a href="article-street-art-shift.html" class="article-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=HIPyy1lLSXvHqP5DFloTTLtdTi%2BFHBI1g2Eiig0x5APsqH1tpQ1lXtMcXIfbqKSQJZgrk4wPYuH4%2Br8Hepd1wLKpasbATcwstjtkWBag4g%3D%3D&u2=FIb6Gkk7Lua3rc4h&width=2560"
+              alt="城市壁画"
+            >
+            <div class="article-content">
+              <p class="article-cat">街头表达 · 解读</p>
+              <h2 class="article-title">当涂鸦遇见艺术馆：中国街头艺术的身份转变之路</h2>
+              <p class="article-desc">从被禁止到被展览，从非法到被收藏——中国街头艺术经历了一段怎样的旅程？我们追溯这段历史，也思考它的未来。</p>
+              <div class="article-meta">
+                <span><i class="fas fa-user"></i> 艺术评论家 周然</span>
+                <span><i class="fas fa-calendar"></i> 2025年1月</span>
+                <span><i class="fas fa-clock"></i> 10分钟阅读</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </main>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-widget">
+          <h3>热门文章</h3>
+          <a href="#" class="sidebar-article">
+            <img src="https://sspark.genspark.ai/cfimages?u1=YrIiyPVEi3n5kIu%2FHAm3Lwf9%2FBO4pRRciNXvS1DMdUBgNb%2BNyl7oswOkYwwVLCVAVmOVimjc%2FN60yLpFbioBx4UxlDT1enSuWGuYTH9rxMMQjaMy3FZfonG6CmscomB18N%2Fmx7UN11bC&u2=lIB6lpBmMAaXqHVO&width=2560" alt="漆器">
+            <div class="sidebar-article-info">
+              <p class="sidebar-article-title">中国漆器的千年密码</p>
+              <p class="sidebar-article-meta">非遗鉴赏 · 5月阅读最多</p>
+            </div>
+          </a>
+          <a href="#" class="sidebar-article">
+            <img src="https://sspark.genspark.ai/cfimages?u1=gcIJ8ddrAvbIT%2FQVkWmrY9mIjPgYTxgRkNW9TtJ3k%2FFuRJRP5sLtlY5VSfnD7VssaVMj78YLJ6VlEPGXI3eR1WI5nBpLa8A%2BmrxFz4yYDM3n%2Fd8YG%2Bpfg1gT8SAJRNlHNDPpKAM5oPA84k%2Fs04HASw%2FP0aDLp2QULSLpfn3590%2B3axAcetYzPLlCxBXeduHCvIW5&u2=MXdebtMllp9GuhGH&width=2560" alt="瓷器">
+            <div class="sidebar-article-info">
+              <p class="sidebar-article-title">景德镇青花：蓝与白的千年对话</p>
+              <p class="sidebar-article-meta">陶瓷文化 · 热门</p>
+            </div>
+          </a>
+          <a href="#" class="sidebar-article">
+            <img src="https://sspark.genspark.ai/cfimages?u1=nValPZe8sZxj0Ct28AAsaQBgedqUoaM6xKa8sOFa11djmf18o%2BSmuehhneNZErq5QqtyTP0Wd4JTnbkaPlVoazsnX1fM2yEEOtg36Kk5CJitEVR0llDJUiFAR6PCJFudp40a9pgDyt0Ix9ztZ0I4j2lwuV8IYjYLmqUgpMmozQFGmSTrz4%2Fwg0xWlFSqE2A%3D%3D&u2=TqVV6siSrNDKMKAA&width=2560" alt="水墨画">
+            <div class="sidebar-article-info">
+              <p class="sidebar-article-title">当代水墨的现代叙事</p>
+              <p class="sidebar-article-meta">绘画评论 · 推荐</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="sidebar-widget">
+          <h3>话题标签</h3>
+          <div class="tag-cloud">
+            <a href="#">扎染</a>
+            <a href="#">非遗传承</a>
+            <a href="#">竹编</a>
+            <a href="#">当代水墨</a>
+            <a href="#">苏绣</a>
+            <a href="#">街头艺术</a>
+            <a href="#">漆器</a>
+            <a href="#">陶艺</a>
+            <a href="#">青年艺术</a>
+            <a href="#">匠人精神</a>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <h3>精选推荐</h3>
+          <a href="product-detail.html?id=tiedye1" style="display:block;text-decoration:none;">
+            <img src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560" alt="扎染围巾" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
+            <p style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">白族靛蓝扎染围巾</p>
+            <p style="font-size:14px;font-weight:700;color:#2d6a6a;">¥680</p>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>染织与纤维 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .page-banner {
+      position: relative; width: 100%; height: 420px;
+      overflow: hidden; background: #e8eff0;
+    }
+    .page-banner img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+    }
+    .page-banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(232,239,240,0.95) 35%, rgba(232,239,240,0.55) 65%, transparent 100%);
+    }
+    .page-banner-content {
+      position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+      padding: 0 6%; z-index: 3; max-width: 560px;
+    }
+    .page-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 40px; font-weight: 700; color: #1a2a2a;
+      letter-spacing: 4px; margin-bottom: 12px; line-height: 1.3;
+    }
+    .page-banner-content p { font-size: 14px; color: #3a5050; line-height: 1.9; max-width: 380px; }
+
+    .nav-tabs-bar {
+      background: #fff; border-bottom: 1px solid #e0e8e8;
+      position: sticky; top: 60px; z-index: 100;
+    }
+    .nav-tabs-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; gap: 0; overflow-x: auto;
+    }
+    .nav-tab {
+      padding: 14px 24px; font-size: 14px; color: #5a5040;
+      text-decoration: none; border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all 0.2s;
+    }
+    .nav-tab:hover { color: #2d6a6a; }
+    .nav-tab.active { color: #2d6a6a; border-bottom-color: #2d6a6a; font-weight: 600; }
+
+    /* Two-column layout */
+    .listing-layout {
+      max-width: 1200px; margin: 0 auto; padding: 36px 24px 60px;
+      display: grid; grid-template-columns: 240px 1fr; gap: 32px;
+    }
+    /* Filter sidebar */
+    .filter-sidebar { position: sticky; top: 120px; align-self: start; }
+    .filter-group { margin-bottom: 28px; }
+    .filter-group h4 {
+      font-size: 13px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 1px solid #e8e0d0; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .filter-option {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px; cursor: pointer;
+    }
+    .filter-option input[type="checkbox"] { accent-color: #2d6a6a; }
+    .filter-option label { font-size: 13px; color: #5a5040; cursor: pointer; }
+    .filter-range { display: flex; align-items: center; gap: 8px; }
+    .filter-range input {
+      width: 80px; padding: 6px 8px; border: 1px solid #e0d8c8;
+      border-radius: 4px; font-size: 12px; color: #1a1a1a;
+    }
+    .filter-apply {
+      display: block; width: 100%; padding: 10px;
+      background: #2d6a6a; color: #fff; border: none;
+      border-radius: 6px; font-size: 13px; font-weight: 600;
+      cursor: pointer; text-align: center; margin-top: 16px;
+      transition: background 0.2s;
+    }
+    .filter-apply:hover { background: #1e4e4e; }
+
+    /* Product list */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      border: 1px solid #e8e0d0; border-radius: 10px;
+      overflow: hidden; text-decoration: none; background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column;
+    }
+    .product-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; }
+    .product-card-body { padding: 14px 14px 8px; flex: 1; }
+    .product-card-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+    .product-card-artist { font-size: 12px; color: #8a7a6a; }
+    .product-card-footer {
+      padding: 10px 14px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-card-price { font-size: 16px; font-weight: 700; color: #2d6a6a; }
+    .heart-btn {
+      background: none; border: none; cursor: pointer;
+      color: #c0a080; font-size: 16px; padding: 4px; transition: color 0.2s;
+    }
+    .heart-btn:hover { color: #e05050; }
+
+    .sub-chips {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .sub-chip {
+      padding: 6px 16px; border-radius: 20px; font-size: 13px;
+      border: 1px solid #e0d8c8; color: #5a5040; text-decoration: none;
+      transition: all 0.2s; background: #fff;
+    }
+    .sub-chip:hover, .sub-chip.active {
+      background: #2d6a6a; color: #fff; border-color: #2d6a6a;
+    }
+
+    @media (max-width: 900px) {
+      .listing-layout { grid-template-columns: 1fr; }
+      .filter-sidebar { position: static; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .page-banner { height: 300px; }
+      .page-banner-content h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <!-- BANNER -->
+    <section class="page-banner">
+      <img
+        src="https://sspark.genspark.ai/cfimages?u1=ge%2BgkmecTjB9e%2B28LCHOT5XfWhARzrs53%2B%2BkmpAPG0LgPlrLJ9vJ801e01H3LdlsQTAbYSccpGjSPTTcGrMa0WrmbQ%3D%3D&u2=nKYyAdKxYkgbLx4D&width=2560"
+        alt="染织与纤维·靛蓝扎染"
+      >
+      <div class="page-banner-overlay"></div>
+      <div class="page-banner-content">
+        <h1>染织与纤维</h1>
+        <p>天然植物染料，手工织造技艺。<br>每一寸布帛都是时间与手艺的沉淀。</p>
+      </div>
+    </section>
+
+    <!-- NAV TABS -->
+    <nav class="nav-tabs-bar">
+      <div class="nav-tabs-inner">
+        <a href="heritage.html" class="nav-tab">全部非遗</a>
+        <a href="heritage-dyeing.html" class="nav-tab active">染织与纤维</a>
+        <a href="heritage.html#metalwork" class="nav-tab">金工与镶嵌</a>
+        <a href="heritage.html#papercut" class="nav-tab">剪纸与纸艺</a>
+        <a href="heritage.html#lacquer" class="nav-tab">漆器与木作</a>
+      </div>
+    </nav>
+
+    <!-- LISTING LAYOUT -->
+    <div class="listing-layout">
+      <!-- FILTER SIDEBAR -->
+      <aside class="filter-sidebar">
+        <div class="filter-group">
+          <h4>价格区间</h4>
+          <div class="filter-range">
+            <input type="number" placeholder="最低" min="0">
+            <span>—</span>
+            <input type="number" placeholder="最高" min="0">
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>材质</h4>
+          <label class="filter-option"><input type="checkbox"> <label>天然植物染</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>棉麻材质</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>蚕丝织物</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>羊毛编织</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>手工拼布</label></label>
+        </div>
+        <div class="filter-group">
+          <h4>颜色</h4>
+          <label class="filter-option"><input type="checkbox"> <label>靛蓝系</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>土红系</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>草木绿</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>黑白系</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>多色</label></label>
+        </div>
+        <div class="filter-group">
+          <h4>工艺</h4>
+          <label class="filter-option"><input type="checkbox"> <label>扎染</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>蜡染</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>织造</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>刺绣</label></label>
+        </div>
+        <div class="filter-group">
+          <h4>是否可购买</h4>
+          <label class="filter-option"><input type="checkbox" checked> <label>有库存</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>预订</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>定制</label></label>
+        </div>
+        <button class="filter-apply">应用筛选</button>
+      </aside>
+
+      <!-- PRODUCT AREA -->
+      <div>
+        <div class="sub-chips">
+          <a href="heritage-dyeing-tiedye.html" class="sub-chip active">扎染</a>
+          <a href="heritage-dyeing.html" class="sub-chip">蜡染</a>
+          <a href="heritage-dyeing.html" class="sub-chip">织造</a>
+          <a href="heritage-dyeing.html" class="sub-chip">刺绣</a>
+          <a href="heritage-dyeing.html" class="sub-chip">草木染</a>
+        </div>
+        <div class="product-grid">
+          <a href="product-detail.html?id=dy1" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560"
+              alt="靛蓝扎染围巾"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">靛蓝扎染棉麻围巾</div>
+              <div class="product-card-artist">大理云染工坊 · 扎染</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥680</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=dy2" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=ge%2BgkmecTjB9e%2B28LCHOT5XfWhARzrs53%2B%2BkmpAPG0LgPlrLJ9vJ801e01H3LdlsQTAbYSccpGjSPTTcGrMa0WrmbQ%3D%3D&u2=nKYyAdKxYkgbLx4D&width=2560"
+              alt="植物靛蓝棉布"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">植物靛蓝手工棉布</div>
+              <div class="product-card-artist">贵州苗寨染坊 · 植物染</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥320/米</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=dy3" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=gvvb%2B9PJUaS3%2BVwBcD%2FVDR4edoYckSAf1kCVhb7xMazt0DXr4EorGB6tBq5TDMX7J5HmrVU0HLfxsV1ajE%2BN2cnL9WlkdnMIUtpy8B8PGUa63yk35xjcmHX1mqJXER%2ByhnId%2Bi19Gt1G5eCmioKJLDmD&u2=5ZyLuCZpGr1TYJNW&width=2560"
+              alt="靛蓝染色工艺"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">靛蓝染·手作抱枕套</div>
+              <div class="product-card-artist">陈家染艺 · 手工染色</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥480</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=dy4" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=3dOjT6z9nKhCuMsgJ7JNX%2FNK92FPTEYvI5dpzxbiXL9wWdQhHo3apF3wy3cXiPfT0cufrxw46CFTx%2Fa9RKhHg7qfifu6HHc5txGvY0GJpUShQskazzgt8RP2wVfbHE%2Bg3sQQ%2By0RgGR8B87tGV%2B5xg%3D%3D&u2=whyat0vP%2FkEu5otQ&width=2560"
+              alt="中国扎染文化"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">白族扎染桌旗·喜鹊</div>
+              <div class="product-card-artist">周城白族染坊 · 传统扎染</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥580</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=dy5" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=mJMt90lXLsATFg%2BOCeMWdg6WzgExC6idjrrjXIiwLQ%2Fc1b%2Btv8dPphUUrBVBjhkWd%2BYV2Lf8PZLDfRlIcLc5OvkTGReUiwvASctN7qEg4Bt5lAXERK1udElqvliF2MZtuiCfrpsy5E5QDa4lsw0%3D&u2=Eu5rid4I%2BS8U01fH&width=2560"
+              alt="苏绣刺绣围巾"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">苏绣·牡丹真丝围巾</div>
+              <div class="product-card-artist">苏绣大师 · 苏绣</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥1,980</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=dy6" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=MmTfhhAK75Fcrbw5Vh891s8w8QUCGijYgDOkcFuaYLdiQ44oUoGuurdnTaetNYdfpGzDQ0DSGD50N%2BZuU1isJnQshOW%2FDqesc5Af6KePHoquWOTn7kqlJL2yuec%3D&u2=JhKzWLOCEApEFJY1&width=2560"
+              alt="中国靛蓝染色布"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">靛蓝染·五层渐变挂帘</div>
+              <div class="product-card-artist">古法染艺坊 · 草木染</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥1,280</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

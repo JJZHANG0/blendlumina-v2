@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .about-banner {
+      position: relative; width: 100%; height: 480px;
+      overflow: hidden; background: #1a2a2a;
+    }
+    .about-banner img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+    }
+    .about-banner-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,20,20,0.65);
+    }
+    .about-banner-content {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 1200px;
+      z-index: 3;
+      text-align: left;
+      padding: 0 var(--page-gutter);
+    }
+    .about-banner-content .tag {
+      font-size: 11px; color: #7ecbd8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .about-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 48px; font-weight: 700; color: #fff;
+      letter-spacing: 6px; margin-bottom: 16px; line-height: 1.3;
+    }
+    .about-banner-content p { font-size: 15px; color: #c0d8d8; max-width: 560px; line-height: 2; }
+
+    .about-section { max-width: 1200px; margin: 0 auto; padding: 60px var(--page-gutter); }
+    .about-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 26px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 20px; text-align: left; letter-spacing: 2px;
+    }
+    .about-section p { font-size: 14px; color: #5a5040; line-height: 2.2; margin-bottom: 16px; text-align: left; max-width: 880px; }
+
+    /* Stats */
+    .stats-section { background: #eef4f3; padding: 60px 0; }
+    .stats-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--page-gutter); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left; }
+    .stat-item {}
+    .stat-num { font-family: 'Noto Serif SC', serif; font-size: 48px; font-weight: 700; color: #1f5d5e !important; margin-bottom: 8px; }
+    .stat-label { font-size: 14px; color: #355f58 !important; font-weight: 500; }
+
+    /* Values grid */
+    .values-section { max-width: 1200px; margin: 0 auto; padding: 60px var(--page-gutter); }
+    .values-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 26px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 36px; text-align: left;
+    }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .value-card {
+      border: 1px solid #e8e0d0; border-radius: 12px;
+      overflow: hidden; background: #fff; transition: box-shadow 0.2s;
+    }
+    .value-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .value-card-img { width: 100%; height: 200px; object-fit: cover; }
+    .value-card-body { padding: 20px; }
+    .value-card-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px;
+    }
+    .value-card-body p { font-size: 13px; color: #5a5040; line-height: 1.9; }
+
+    /* Team */
+    .team-section { background: #1a2a2a; padding: 60px 0; }
+    .team-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--page-gutter); }
+    .team-inner h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 26px; font-weight: 700; color: #fff;
+      margin-bottom: 36px; text-align: left;
+    }
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .team-card { text-align: center; }
+    .team-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; display: block; border: 3px solid rgba(255,255,255,0.2); }
+    .team-name { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .team-role { font-size: 12px; color: #7ecbd8; }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, #2d6a6a, #1e4e4e);
+      padding: 60px 0;
+    }
+    .cta-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--page-gutter); }
+    .cta-section h2 { font-family: 'Noto Serif SC', serif; font-size: 28px; color: #fff; margin-bottom: 12px; text-align: left; }
+    .cta-section p { font-size: 14px; color: #c0e0d8; margin-bottom: 28px; text-align: left; }
+    .cta-btns { display: flex; justify-content: flex-start; gap: 16px; flex-wrap: wrap; }
+    .cta-btn-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #2d6a6a; padding: 12px 28px;
+      border-radius: 4px; text-decoration: none; font-size: 14px; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .cta-btn-white:hover { background: #f0f8f5; }
+    .cta-btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid #fff; color: #fff; padding: 11px 24px;
+      border-radius: 4px; text-decoration: none; font-size: 14px;
+      transition: all 0.2s;
+    }
+    .cta-btn-outline:hover { background: rgba(255,255,255,0.15); }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-banner { height: 360px; }
+      .about-banner-content h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <!-- BANNER -->
+    <section class="about-banner">
+      <img
+        src="https://sspark.genspark.ai/cfimages?u1=Odey6t1dHeV%2FPHmsM%2FBvq6MHIsOowvWRhHfVGTf2gPpWftdRum62Mc6eZVKgr54yRpWCnHoULn7H1NsdZKuvnaN%2BQezUJaXX0uUrnDZVG%2FTWaRQUeU9qn3KO%2F%2B7apSoiF7BIeD3G0cOuvq7B0mibTe7aGwW3O1vLAg%3D%3D&u2=x7Ns2XOz6OtqzsBi&width=2560"
+        alt="Blend Lumina 关于我们"
+      >
+      <div class="about-banner-overlay"></div>
+      <div class="about-banner-content">
+        <p class="tag">About Blend Lumina</p>
+        <h1>关于我们</h1>
+        <p>我们相信艺术应该被更多人看见。<br>Blend Lumina 连接创作者与收藏者，让每一件作品都找到真正懂它的人。</p>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <div class="about-section">
+      <h2>我们的使命</h2>
+      <p>Blend Lumina（融光）成立于2022年，是一个专注于中国当代与传统艺术的原创作品交易平台。</p>
+      <p>我们汇聚青年艺术家、民间手作人、街头创作者与非遗传承人，打破艺术与大众之间的隔阂，让艺术真正回归生活。</p>
+      <p>每一件在 Blend Lumina 出售的作品，都经过平台严格的艺术家身份认证与作品审核，确保真实性与价值。</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-section">
+      <div class="stats-inner">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-num" data-target="3280">0</div>
+            <div class="stat-label">认证艺术家</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" data-target="12500">0</div>
+            <div class="stat-label">原创作品</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" data-target="86000">0</div>
+            <div class="stat-label">注册收藏者</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" data-target="31">0</div>
+            <div class="stat-label">覆盖省市</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VALUES -->
+    <div class="values-section">
+      <h2>我们的价值观</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <img class="value-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=cz3%2FVj%2BnTpbJi2P%2FTmAeA%2BL53%2FiRMf%2FH0Frj5OAzihr55IQw2XjIZpNVeUrLHuJxX5auR3MhGIoxPEQohzq%2B5gFRCzicP4A%2BUfLfI3c4cVRiXe7lUFfMM0yKRUOUr0H%2BGiMaBVOnCPBsFuxjN0iALYbaujEJgQ%3D%3D&u2=y%2BOMIzaom8JVoSfZ&width=2560"
+            alt="传承文化"
+          >
+          <div class="value-card-body">
+            <h3>🏺 传承文化</h3>
+            <p>守护正在消逝的手工艺，通过商业力量让非遗传承人得到应有的尊重与回报。</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <img class="value-card-img"
+            src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop"
+            alt="支持新锐"
+          >
+          <div class="value-card-body">
+            <h3>🎨 支持新锐</h3>
+            <p>为无名的青年艺术家提供展示平台，帮助他们走向更广阔的市场，被更多人看见。</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <img class="value-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=tBMIJdeGwnl7HX8%2Fg266CxWSBIDaJNLum9%2BZqleartvlaxK9Nxqw%2B4zn374vFgb4f%2BDMZ5%2Ffu70MoZ5xZt5BXlYK%2F7M%3D&u2=LZER2SugS4D%2FlVcX&width=2560"
+            alt="真实表达"
+          >
+          <div class="value-card-body">
+            <h3>🏙️ 真实表达</h3>
+            <p>艺术不应被阶层束缚。我们相信街头艺术、民间手作与精英艺术同样有价值、值得被珍藏。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="team-section">
+      <div class="team-inner">
+        <h2>团队成员</h2>
+        <div class="team-grid">
+          <div class="team-card">
+            <img class="team-avatar"
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
+              alt="创始人陈融"
+            >
+            <p class="team-name">陈融</p>
+            <p class="team-role">创始人 & CEO</p>
+          </div>
+          <div class="team-card">
+            <img class="team-avatar"
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop"
+              alt="艺术总监"
+            >
+            <p class="team-name">林逸</p>
+            <p class="team-role">艺术总监</p>
+          </div>
+          <div class="team-card">
+            <img class="team-avatar"
+              src="https://sspark.genspark.ai/cfimages?u1=JE7nC%2BWU4Vm4pMPnq30MekWsg1PFPbJT27Hljem5Prg%2BoyvkfWts4oQ62q27fJCXTl4Q%2FDoqfBeHhThSMS%2FBmyx91XLZkRijfB0dpLBe6jUL1sbXp%2FLyFHkPydiDFUM%3D&u2=90eeJMjro6JUD9aS&width=2560"
+              alt="非遗策展人"
+            >
+            <p class="team-name">马晓燕</p>
+            <p class="team-role">非遗策展人</p>
+          </div>
+          <div class="team-card">
+            <img class="team-avatar"
+              src="https://sspark.genspark.ai/cfimages?u1=OvwnqctPW2p48zFgZV9HDmcNBvAyP7W21bbta8s58R5pjbhEFlVwzhYlsMExL5blXwnAirwVxcVAqiY8WpN4gduN85DSQEBEmYshuWWaSl6O%2BwIVxSnUnNbGhLrXPEuzeA09a6iPYQaeUH10Y8t6na1HajvoYcF58YOzkTyd8P%2BIg76vPA%3D%3D&u2=dkd0mu%2FB5%2FmmYDZk&width=2560"
+              alt="用户运营"
+            >
+            <p class="team-name">赵一鸣</p>
+            <p class="team-role">用户运营总监</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <div class="cta-inner">
+        <h2>加入 Blend Lumina</h2>
+        <p>无论你是艺术家还是收藏者，我们都欢迎你</p>
+        <div class="cta-btns">
+          <a href="artist-apply.html" class="cta-btn-white"><i class="fas fa-paint-brush"></i> 申请艺术家入驻</a>
+          <a href="shop.html" class="cta-btn-outline"><i class="fas fa-compass"></i> 探索作品</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+  <script>
+    // Count-up animation
+    function countUp(el, target) {
+      let current = 0;
+      const step = Math.ceil(target / 80);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current.toLocaleString();
+        if (current >= target) clearInterval(timer);
+      }, 20);
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = +entry.target.dataset.target;
+          countUp(entry.target, target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

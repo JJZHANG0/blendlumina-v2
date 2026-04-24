@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>竹编的时间 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .article-hero { position: relative; height: 380px; overflow: hidden; background: #2e2419; }
+    .article-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .article-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(31,20,10,0.82) 0%, rgba(31,20,10,0.35) 65%, rgba(31,20,10,0.2) 100%); }
+    .article-hero-content { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); width: 100%; max-width: 1200px; padding: 0 var(--page-gutter); z-index: 2; color: #fff; }
+    .article-hero-content .tag { font-size: 12px; letter-spacing: 2px; color: #dfbf95; margin-bottom: 10px; }
+    .article-hero-content h1 { font-family: 'Noto Serif SC', serif; font-size: 38px; line-height: 1.35; margin-bottom: 10px; }
+    .article-hero-content .meta { font-size: 12px; color: #e4d2bd; display: flex; gap: 14px; flex-wrap: wrap; }
+    .article-wrap { max-width: 1200px; margin: 0 auto; padding: 40px var(--page-gutter) 64px; display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
+    .article-body { font-size: 15px; color: #2e2c28; line-height: 2; }
+    .article-body h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; margin: 24px 0 14px; }
+    .article-body p { margin-bottom: 14px; }
+    .article-body blockquote { border-left: 3px solid #8b6940; padding: 10px 16px; margin: 16px 0; color: #5f4a2f; background: #fbf5eb; }
+    .article-side { border-left: 1px solid #e9e3d8; padding-left: 20px; }
+    .side-card h3 { font-family: 'Noto Serif SC', serif; font-size: 16px; margin-bottom: 12px; }
+    .side-card a { display: block; margin-bottom: 10px; color: #3e3a33; font-size: 13px; text-decoration: none; }
+    .side-card a:hover { color: #8b6940; }
+    @media (max-width: 900px) { .article-wrap { grid-template-columns: 1fr; } .article-side { border-left: none; padding-left: 0; } .article-hero-content h1 { font-size: 30px; } }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="article-hero">
+      <img src="https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1800&auto=format&fit=crop" alt="竹编手工器物">
+      <div class="article-hero-content">
+        <p class="tag">民间手作 · 竹编</p>
+        <h1>竹编的时间：一根竹子需要多少年才能成为艺术</h1>
+        <div class="meta">
+          <span><i class="fas fa-user"></i> 桂竹手艺工坊</span>
+          <span><i class="fas fa-calendar"></i> 2025年3月</span>
+          <span><i class="fas fa-clock"></i> 6分钟阅读</span>
+        </div>
+      </div>
+    </section>
+    <section class="article-wrap">
+      <article class="article-body">
+        <p>竹编看起来轻盈，但它背后是一套复杂而漫长的工艺流程：选竹、劈篾、刮青、蒸煮、防霉、编织、收口、打磨。每个环节都需要经验判断，无法被简单复制。</p>
+        <h2>手感是第一道标准</h2>
+        <p>匠人会通过手指判断篾条含水量，过干会脆裂，过湿会塌陷。真正好的竹编器物，既要结构稳定，也要有呼吸感。</p>
+        <blockquote>“竹子会告诉你它愿意弯到哪里，工艺不是强迫，是顺势。”</blockquote>
+        <h2>从功能器到审美器</h2>
+        <p>过去竹编多用于日常生活，如筐、篮、席。今天，它开始进入美术馆与设计展，成为连接传统智慧和当代生活方式的媒介。</p>
+        <p>我们购买一件竹编，不只是购买器物，更是在支持一条还活着的手艺路径。</p>
+      </article>
+      <aside class="article-side">
+        <div class="side-card">
+          <h3>继续阅读</h3>
+          <a href="article-indigo-philosophy.html">靛蓝的哲学：为什么扎染是最有温度的艺术</a>
+          <a href="article-city-release.html">释放：关于城市、孤独与创作的对话</a>
+          <a href="article-street-art-shift.html">当涂鸦遇见艺术馆：身份转变之路</a>
+          <a href="art-appreciation.html"><i class="fas fa-arrow-left"></i> 返回艺术鉴赏列表</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

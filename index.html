@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blend Lumina - 看见艺术，看见故事，看见价值</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    /* ===== HERO BANNER ===== */
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      overflow: hidden;
+      background: #f3eee5;
+    }
+    .hero-banner-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(247,242,234,0.98) 34%, rgba(247,242,234,0.74) 58%, rgba(247,242,234,0.2) 80%, transparent 100%);
+    }
+    .hero-banner-content {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      padding: 0 6%;
+      max-width: 560px;
+      z-index: 3;
+    }
+    .hero-banner-content .hero-en {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #8a7f70;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .hero-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 50px;
+      font-weight: 700;
+      color: #151515;
+      line-height: 1.2;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .hero-banner-content p {
+      font-size: 13px;
+      color: #5f5547;
+      line-height: 1.9;
+      max-width: 400px;
+      margin-bottom: 24px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1f6a6b;
+      color: #fff;
+      padding: 11px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #154d4e; }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #1f6a6b;
+      color: #1f6a6b;
+      padding: 10px 22px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.7);
+    }
+    .btn-outline:hover { background: #1f6a6b; color: #fff; }
+
+    /* ===== CATEGORY CARDS ===== */
+    .cat-section {
+      background: #fff;
+      border-top: 1px solid #eee9df;
+      border-bottom: 1px solid #eee9df;
+      padding: 18px 0;
+    }
+    .cat-section .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .cat-card {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      border: 1px solid #e9e4d8;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      background: #fff;
+      min-height: 92px;
+    }
+    .cat-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .cat-card-img {
+      width: 120px;
+      height: 92px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .cat-card-body {
+      padding: 10px 12px;
+      text-align: left;
+      width: 100%;
+    }
+    .cat-card-body h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .cat-card-body p {
+      font-size: 11px;
+      color: #7d7364;
+      line-height: 1.6;
+    }
+
+    /* ===== FEATURED WORKS ===== */
+    .featured-section { max-width: 1200px; margin: 0 auto; padding: 32px 24px 40px; }
+    .featured-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .featured-header h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: #101010;
+    }
+    .view-all {
+      font-size: 12px;
+      color: #1f6a6b;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .view-all:hover { text-decoration: underline; }
+
+    /* Product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .product-card {
+      border: 1px solid #ebe6db;
+      border-radius: 6px;
+      overflow: hidden;
+      text-decoration: none;
+      background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .product-card-img {
+      width: 100%;
+      height: 188px;
+      object-fit: cover;
+    }
+    .product-card-body { padding: 10px 12px 4px; flex: 1; }
+    .product-card-title { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+    .product-card-artist { font-size: 11px; color: #847a6d; }
+    .product-card-footer {
+      padding: 8px 12px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-card-price { font-size: 18px; font-weight: 700; color: #1f6a6b; }
+    .heart-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #b8ad9f;
+      font-size: 16px;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .heart-btn:hover, .heart-btn.active { color: #e05050; }
+    .heart-btn.active i { font-weight: 900; }
+
+    @media (max-width: 900px) {
+      .hero-banner { height: 320px; }
+      .hero-banner-content h1 { font-size: 34px; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .hero-banner { height: 280px; }
+      .hero-banner-content { padding: 0 18px; max-width: 100%; }
+      .hero-banner-content h1 { font-size: 24px; letter-spacing: 1px; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .cat-card { flex-direction: column; min-height: auto; }
+      .cat-card-img { width: 100%; height: 120px; }
+      .cat-card-body { text-align: center; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <!-- ======== HERO BANNER ======== -->
+    <section class="hero-banner">
+      <img
+        class="hero-banner-img"
+        src="https://sspark.genspark.ai/cfimages?u1=Odey6t1dHeV%2FPHmsM%2FBvq6MHIsOowvWRhHfVGTf2gPpWftdRum62Mc6eZVKgr54yRpWCnHoULn7H1NsdZKuvnaN%2BQezUJaXX0uUrnDZVG%2FTWaRQUeU9qn3KO%2F%2B7apSoiF7BIeD3G0cOuvq7B0mibTe7aGwW3O1vLAg%3D%3D&u2=x7Ns2XOz6OtqzsBi&width=2560"
+        alt="中国山水画·水墨意境"
+      >
+      <div class="hero-banner-overlay"></div>
+      <div class="hero-banner-content">
+        <p class="hero-en">Blend Lumina · Art Marketplace</p>
+        <h1>看见艺术<br>看见故事<br>看见价值</h1>
+        <p>连接青年创作者、民间手作、街头表达与传统非遗，<br>让艺术被看见，也被理解。</p>
+        <div class="hero-btns">
+          <a href="shop.html" class="btn-primary"><i class="fas fa-compass"></i> 探索作品</a>
+          <a href="artist-apply.html" class="btn-outline">申请入驻</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== CATEGORY CARDS ======== -->
+    <section class="cat-section">
+      <div class="inner">
+        <div class="cat-grid">
+          <a href="youth.html" class="cat-card">
+            <img class="cat-card-img"
+              src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop"
+              alt="青年创作"
+            >
+            <div class="cat-card-body">
+              <h4>青年创作</h4>
+              <p>发现新锐力量<br>感受当代视角</p>
+            </div>
+          </a>
+          <a href="folk.html" class="cat-card">
+            <img class="cat-card-img"
+              src="https://sspark.genspark.ai/cfimages?u1=mAdP6tPhy%2FyslYoo0c96tTqzC69QsYvDTvO%2Bu2QInzJFRzpWCPt%2FAJ7A37dQCywR60adYzzwpAzi3EYZeXrk7AKdkjzTbIBHlZ5UbuoTdOVoKiqABTshnDweSc4r%2Bl8vOWmHxZMwQ6ku%2Fb%2B8wsOMH4334DPx7GORu3AROBRmhPDHHhuda8jBYrosLrai6MZQm%2Ffj3mObJeq%2BJSC%2F7oAR2BD%2FYK34gQr0dgj9AStjHdLtRmPIPNp82jzqKhsl8E75qUtzEdN3BQJAOcI%3D&u2=nKeZynzsu5%2BT27hq&width=2560"
+              alt="民间手作"
+            >
+            <div class="cat-card-body">
+              <h4>民间手作</h4>
+              <p>匠心手作之美<br>来自生活与传承</p>
+            </div>
+          </a>
+          <a href="street.html" class="cat-card">
+            <img class="cat-card-img"
+              src="https://sspark.genspark.ai/cfimages?u1=GGo%2Berde8XT92JuhAzBQ1GaWetJKrDbYYWRi0nA1r4JzCqdXDlQAeuw76uLnvEkgZSxI7KBI%2Bwzq5JMCS%2BePfClM7zyUgs7%2F4QBwcJ4Rc15zMXv8MoSzpn5tGGfcHADpe%2FYhI%2FxjV2QkCtWtavzT2qjHcNJL6aLKM1BW314%3D&u2=gL3I0nhZW%2BILvp1B&width=2560"
+              alt="街头表达"
+            >
+            <div class="cat-card-body">
+              <h4>街头表达</h4>
+              <p>城市的声音<br>真实与自由的表达</p>
+            </div>
+          </a>
+          <a href="heritage.html" class="cat-card">
+            <img class="cat-card-img"
+              src="https://sspark.genspark.ai/cfimages?u1=cz3%2FVj%2BnTpbJi2P%2FTmAeA%2BL53%2FiRMf%2FH0Frj5OAzihr55IQw2XjIZpNVeUrLHuJxX5auR3MhGIoxPEQohzq%2B5gFRCzicP4A%2BUfLfI3c4cVRiXe7lUFfMM0yKRUOUr0H%2BGiMaBVOnCPBsFuxjN0iALYbaujEJgQ%3D%3D&u2=y%2BOMIzaom8JVoSfZ&width=2560"
+              alt="传统与非遗"
+            >
+            <div class="cat-card-body">
+              <h4>传统与非遗</h4>
+              <p>守护文化根脉<br>传承手艺智慧</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== FEATURED WORKS ======== -->
+    <section class="featured-section">
+      <div class="featured-header">
+        <h2>精选作品</h2>
+        <a href="shop.html" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="product-grid" id="featured-grid">
+        <!-- 1 -->
+        <a href="product-detail.html?id=1" class="product-card">
+          <img class="product-card-img"
+            src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop"
+            alt="山水意境·当代绘画"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">山岚之歌</div>
+            <div class="product-card-artist">林一凡 · 绘画</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥4,800</span>
+            <button class="heart-btn" data-id="1" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 2 -->
+        <a href="product-detail.html?id=2" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=YrIiyPVEi3n5kIu%2FHAm3Lwf9%2FBO4pRRciNXvS1DMdUBgNb%2BNyl7oswOkYwwVLCVAVmOVimjc%2FN60yLpFbioBx4UxlDT1enSuWGuYTH9rxMMQjaMy3FZfonG6CmscomB18N%2Fmx7UN11bC&u2=lIB6lpBmMAaXqHVO&width=2560"
+            alt="朱漆描金盏·漆器"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">朱漆描金盏</div>
+            <div class="product-card-artist">草木器社 · 漆器工艺</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥1,280</span>
+            <button class="heart-btn" data-id="2" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 3 -->
+        <a href="product-detail.html?id=3" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560"
+            alt="大理扎染靛蓝围巾"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">大理扎染靛蓝围巾</div>
+            <div class="product-card-artist">云染工坊 · 扎染</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥680</span>
+            <button class="heart-btn" data-id="3" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 4 -->
+        <a href="product-detail.html?id=4" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=mJMt90lXLsATFg%2BOCeMWdg6WzgExC6idjrrjXIiwLQ%2Fc1b%2Btv8dPphUUrBVBjhkWd%2BYV2Lf8PZLDfRlIcLc5OvkTGReUiwvASctN7qEg4Bt5lAXERK1udElqvliF2MZtuiCfrpsy5E5QDa4lsw0%3D&u2=Eu5rid4I%2BS8U01fH&width=2560"
+            alt="传统苏绣团扇"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">传统苏绣团扇</div>
+            <div class="product-card-artist">苏绣镶人 · 刺绣</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥2,400</span>
+            <button class="heart-btn" data-id="4" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 5 -->
+        <a href="product-detail.html?id=5" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=mAdP6tPhy%2FyslYoo0c96tTqzC69QsYvDTvO%2Bu2QInzJFRzpWCPt%2FAJ7A37dQCywR60adYzzwpAzi3EYZeXrk7AKdkjzTbIBHlZ5UbuoTdOVoKiqABTshnDweSc4r%2Bl8vOWmHxZMwQ6ku%2Fb%2B8wsOMH4334DPx7GORu3AROBRmhPDHHhuda8jBYrosLrai6MZQm%2Ffj3mObJeq%2BJSC%2F7oAR2BD%2FYK34gQr0dgj9AStjHdLtRmPIPNp82jzqKhsl8E75qUtzEdN3BQJAOcI%3D&u2=nKeZynzsu5%2BT27hq&width=2560"
+            alt="竹编提篮"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">竹编提篮·四季</div>
+            <div class="product-card-artist">桂竹手艺 · 竹编</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥480</span>
+            <button class="heart-btn" data-id="5" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 6 -->
+        <a href="product-detail.html?id=6" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=HIPyy1lLSXvHqP5DFloTTLtdTi%2BFHBI1g2Eiig0x5APsqH1tpQ1lXtMcXIfbqKSQJZgrk4wPYuH4%2Br8Hepd1wLKpasbATcwstjtkWBag4g%3D%3D&u2=FIb6Gkk7Lua3rc4h&width=2560"
+            alt="街头涂鸦艺术原作"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">无处不在的希望</div>
+            <div class="product-card-artist">Street Echo · 涂鸦</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥2,600</span>
+            <button class="heart-btn" data-id="6" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 7 -->
+        <a href="product-detail.html?id=7" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=gcIJ8ddrAvbIT%2FQVkWmrY9mIjPgYTxgRkNW9TtJ3k%2FFuRJRP5sLtlY5VSfnD7VssaVMj78YLJ6VlEPGXI3eR1WI5nBpLa8A%2BmrxFz4yYDM3n%2Fd8YG%2Bpfg1gT8SAJRNlHNDPpKAM5oPA84k%2Fs04HASw%2FP0aDLp2QULSLpfn3590%2B3axAcetYzPLlCxBXeduHCvIW5&u2=MXdebtMllp9GuhGH&width=2560"
+            alt="青花瓷手绘花瓶"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">青花·云鹤瓶</div>
+            <div class="product-card-artist">景德镇窑 · 瓷器</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥3,200</span>
+            <button class="heart-btn" data-id="7" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <!-- 8 -->
+        <a href="product-detail.html?id=8" class="product-card">
+          <img class="product-card-img"
+            src="https://sspark.genspark.ai/cfimages?u1=9pqgxEY%2FS9Rcfijtqtpth5%2FDobnydGDH%2FxlTEF6VMOvbJINJwEbbP5LpOknOT%2BL7XdtxreXcawmy%2FIhFghFK6%2B7%2F7nmABMz6SvnQ0%2B9BkYyv5Uq21JqAbd4M%2Bok2pNLLGOcNJ8hYl0m1lpf%2BVyt2D%2FEVbldwoDEFsw%3D%3D&u2=P85zD7zoy8UfO%2BUb&width=2560"
+            alt="水墨山水长卷"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">云山无尽处</div>
+            <div class="product-card-artist">墨山画院 · 国画</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥6,800</span>
+            <button class="heart-btn" data-id="8" onclick="event.preventDefault();toggleFav(this)"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ======== FEATURED ARTISTS ======== -->
+    <section class="featured-section">
+      <div class="featured-header">
+        <h2>精选作者</h2>
+        <a href="artist-apply.html" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="product-grid">
+        <a href="youth.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop" alt="作者 林一凡">
+          <div class="product-card-body">
+            <div class="product-card-title">林一凡</div>
+            <div class="product-card-artist">青年创作 · 综合材料</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 18 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="folk.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop" alt="作者 草木器社">
+          <div class="product-card-body">
+            <div class="product-card-title">草木器社</div>
+            <div class="product-card-artist">民间手作 · 漆器工艺</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 24 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="heritage-dyeing.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop" alt="作者 云染工坊">
+          <div class="product-card-body">
+            <div class="product-card-title">云染工坊</div>
+            <div class="product-card-artist">传统与非遗 · 扎染</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 31 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="heritage.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1200&auto=format&fit=crop" alt="作者 苏绣镶人">
+          <div class="product-card-body">
+            <div class="product-card-title">苏绣镶人</div>
+            <div class="product-card-artist">传统与非遗 · 刺绣</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 16 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="folk.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1542327897-d73f4005b533?q=80&w=1200&auto=format&fit=crop" alt="作者 桂竹手艺">
+          <div class="product-card-body">
+            <div class="product-card-title">桂竹手艺</div>
+            <div class="product-card-artist">民间手作 · 竹编</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 20 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="street.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?q=80&w=1200&auto=format&fit=crop" alt="作者 Street Echo">
+          <div class="product-card-body">
+            <div class="product-card-title">Street Echo</div>
+            <div class="product-card-artist">街头表达 · 涂鸦</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 22 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="heritage.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1200&auto=format&fit=crop" alt="作者 景德镇窑">
+          <div class="product-card-body">
+            <div class="product-card-title">景德镇窑</div>
+            <div class="product-card-artist">传统与非遗 · 瓷器</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 28 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+        <a href="art-appreciation.html" class="product-card">
+          <img class="product-card-img" src="https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1200&auto=format&fit=crop" alt="作者 墨山画院">
+          <div class="product-card-body">
+            <div class="product-card-title">墨山画院</div>
+            <div class="product-card-artist">青年创作 · 国画</div>
+          </div>
+          <div class="product-card-footer"><span class="product-card-price">代表作 14 件</span><button class="heart-btn" onclick="event.preventDefault();"><i class="far fa-heart"></i></button></div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/common.js"></script>
+  <script>
+    function toggleFav(btn) {
+      btn.classList.toggle('active');
+      const icon = btn.querySelector('i');
+      if (btn.classList.contains('active')) {
+        icon.className = 'fas fa-heart';
+      } else {
+        icon.className = 'far fa-heart';
+      }
+    }
+    // restore favorites from localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const favs = JSON.parse(localStorage.getItem('bl_favs') || '[]');
+      document.querySelectorAll('.heart-btn').forEach(btn => {
+        if (favs.includes(btn.dataset.id)) {
+          btn.classList.add('active');
+          btn.querySelector('i').className = 'fas fa-heart';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

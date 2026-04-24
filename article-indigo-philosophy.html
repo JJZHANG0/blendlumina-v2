@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>靛蓝的哲学 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .article-hero { position: relative; height: 380px; overflow: hidden; background: #0f2a34; }
+    .article-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .article-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5,16,20,0.82) 0%, rgba(5,16,20,0.35) 65%, rgba(5,16,20,0.2) 100%); }
+    .article-hero-content { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); width: 100%; max-width: 1200px; padding: 0 var(--page-gutter); z-index: 2; color: #fff; }
+    .article-hero-content .tag { font-size: 12px; letter-spacing: 2px; color: #93d2dc; margin-bottom: 10px; }
+    .article-hero-content h1 { font-family: 'Noto Serif SC', serif; font-size: 38px; line-height: 1.35; margin-bottom: 10px; }
+    .article-hero-content .meta { font-size: 12px; color: #c7d9dc; display: flex; gap: 14px; flex-wrap: wrap; }
+    .article-wrap { max-width: 1200px; margin: 0 auto; padding: 40px var(--page-gutter) 64px; display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
+    .article-body { font-size: 15px; color: #2e2c28; line-height: 2; }
+    .article-body h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; margin: 24px 0 14px; }
+    .article-body p { margin-bottom: 14px; }
+    .article-body blockquote { border-left: 3px solid #2d6a6a; padding: 10px 16px; margin: 16px 0; color: #355a5a; background: #f2f8f7; }
+    .article-side { border-left: 1px solid #e9e3d8; padding-left: 20px; }
+    .side-card h3 { font-family: 'Noto Serif SC', serif; font-size: 16px; margin-bottom: 12px; }
+    .side-card a { display: block; margin-bottom: 10px; color: #3e3a33; font-size: 13px; text-decoration: none; }
+    .side-card a:hover { color: #2d6a6a; }
+    @media (max-width: 900px) { .article-wrap { grid-template-columns: 1fr; } .article-side { border-left: none; padding-left: 0; } .article-hero-content h1 { font-size: 30px; } }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="article-hero">
+      <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?q=80&w=1800&auto=format&fit=crop" alt="靛蓝扎染布面细节">
+      <div class="article-hero-content">
+        <p class="tag">非遗 · 染织</p>
+        <h1>靛蓝的哲学：为什么扎染是最有温度的艺术</h1>
+        <div class="meta">
+          <span><i class="fas fa-user"></i> 云染工坊·段梅</span>
+          <span><i class="fas fa-calendar"></i> 2025年4月</span>
+          <span><i class="fas fa-clock"></i> 8分钟阅读</span>
+        </div>
+      </div>
+    </section>
+    <section class="article-wrap">
+      <article class="article-body">
+        <p>当一块棉布被棉线束缚，浸入靛蓝染缸，再在空气中慢慢氧化，蓝色便会一层层浮现。扎染之美，不在于绝对的控制，而在于对偶然的尊重。</p>
+        <h2>“慢工艺”如何抵抗快速消费</h2>
+        <p>在工业染色追求标准化的时代，扎染保留了手工的误差。每一次捆扎松紧、每一次蘸染时间、每一次展开布面的节奏，都会带来不可复制的纹理。</p>
+        <blockquote>“真正的扎染不是重复图案，而是在重复中发现新的呼吸。”</blockquote>
+        <p>这份独特性，正是它被许多当代设计师重新关注的原因。传统工艺并没有过时，它只是需要新的语境去被理解。</p>
+        <h2>从乡土到当代生活</h2>
+        <p>如今，扎染不再只是旅游纪念品。它进入了家居织物、服装设计、艺术装置，甚至数字视觉语言。靛蓝从田野走进都市，也让更多年轻人开始重新认识“手作”这一概念。</p>
+        <p>当我们愿意为一件慢慢做出的作品停留，艺术的价值就不再只是价格，而是人与时间之间的关系。</p>
+      </article>
+      <aside class="article-side">
+        <div class="side-card">
+          <h3>继续阅读</h3>
+          <a href="article-bamboo-time.html">竹编的时间：一根竹子需要多少年才能成为艺术</a>
+          <a href="article-city-release.html">释放：关于城市、孤独与创作的对话</a>
+          <a href="article-street-art-shift.html">当涂鸦遇见艺术馆：身份转变之路</a>
+          <a href="art-appreciation.html"><i class="fas fa-arrow-left"></i> 返回艺术鉴赏列表</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

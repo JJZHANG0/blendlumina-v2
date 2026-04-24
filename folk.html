@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>民间手作 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .page-banner {
+      position: relative; width: 100%; height: 440px;
+      overflow: hidden; background: #3a2810;
+    }
+    .page-banner img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+    }
+    .page-banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(40,24,8,0.92) 35%, rgba(40,24,8,0.5) 65%, transparent 100%);
+    }
+    .page-banner-content {
+      position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+      padding: 0 6%; z-index: 3; max-width: 560px;
+    }
+    .page-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 42px; font-weight: 700; color: #fff;
+      letter-spacing: 5px; margin-bottom: 14px; line-height: 1.3;
+    }
+    .page-banner-content p { font-size: 14px; color: #d4b880; line-height: 1.9; max-width: 380px; }
+
+    .category-option-bar {
+      background: #fff;
+      border-top: 1px solid #ece6db;
+      border-bottom: 1px solid #ece6db;
+      padding: 14px 0;
+    }
+    .category-option-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px;
+    }
+    .category-option {
+      position: relative;
+      min-height: 58px;
+      border: 1px solid #e1d6c3;
+      border-radius: 8px;
+      text-decoration: none;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+      background: #fff;
+    }
+    .category-option::after {
+      content: "";
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 0;
+      height: 2px;
+      background: #8b6940;
+      transform: scaleX(0);
+      transition: transform 0.22s ease;
+    }
+    .category-option .option-title { font-size: 13px; color: #5a5040; }
+    .category-option .option-sub {
+      margin-top: 2px; font-size: 10px; color: #a1937f;
+      letter-spacing: 1.4px; text-transform: uppercase;
+    }
+    .category-option:hover,
+    .category-option.active {
+      transform: translateY(-2px);
+      border-color: rgba(139,105,64,0.56);
+      background: #faf5ed;
+      box-shadow: 0 8px 18px rgba(139,105,64,0.16);
+    }
+    .category-option:hover::after,
+    .category-option.active::after { transform: scaleX(1); }
+    .category-option.active .option-title { color: #8b6940; font-weight: 600; }
+
+    .main-section { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
+    }
+    .section-header h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 20px; font-weight: 700; color: #1a1a1a;
+    }
+    .view-all { font-size: 13px; color: #8b6940; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .view-all:hover { text-decoration: underline; }
+
+    .product-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 48px;
+    }
+    .product-card {
+      border: 1px solid #e8e0d0; border-radius: 10px;
+      overflow: hidden; text-decoration: none; background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column;
+    }
+    .product-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .product-card img { width: 100%; height: 210px; object-fit: cover; }
+    .product-card-body { padding: 14px 14px 8px; flex: 1; }
+    .product-card-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+    .product-card-artist { font-size: 12px; color: #8a7a6a; }
+    .product-card-footer {
+      padding: 10px 14px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-card-price { font-size: 16px; font-weight: 700; color: #8b6940; }
+    .heart-btn {
+      background: none; border: none; cursor: pointer;
+      color: #c0a080; font-size: 16px; padding: 4px; transition: color 0.2s;
+    }
+    .heart-btn:hover { color: #e05050; }
+
+    /* Artisan story */
+    .artisan-story {
+      background: #faf5ec; border-radius: 12px; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 48px;
+    }
+    .artisan-story img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
+    .artisan-story-content {
+      padding: 40px; display: flex; flex-direction: column; justify-content: center;
+    }
+    .story-tag { font-size: 11px; color: #8b6940; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+    .artisan-story-content h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 22px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 14px; line-height: 1.4;
+    }
+    .artisan-story-content p { font-size: 13px; color: #5a5040; line-height: 1.9; }
+    .artisan-story-content a {
+      display: inline-block; margin-top: 20px;
+      color: #8b6940; font-size: 13px; text-decoration: none;
+    }
+    .artisan-story-content a:hover { text-decoration: underline; }
+
+    /* Assurance strip */
+    .assurance-strip {
+      background: #3a2810; border-radius: 12px; padding: 32px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .assurance-item { text-align: center; color: #fff; }
+    .assurance-icon { font-size: 28px; margin-bottom: 10px; }
+    .assurance-item h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .assurance-item p { font-size: 12px; opacity: 0.75; }
+
+    @media (max-width: 900px) {
+      .page-banner { height: 340px; }
+      .page-banner-content h1 { font-size: 30px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .artisan-story { grid-template-columns: 1fr; }
+      .assurance-strip { grid-template-columns: repeat(2, 1fr); }
+      .category-option-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <!-- BANNER -->
+    <section class="page-banner">
+      <img
+        src="https://sspark.genspark.ai/cfimages?u1=mAdP6tPhy%2FyslYoo0c96tTqzC69QsYvDTvO%2Bu2QInzJFRzpWCPt%2FAJ7A37dQCywR60adYzzwpAzi3EYZeXrk7AKdkjzTbIBHlZ5UbuoTdOVoKiqABTshnDweSc4r%2Bl8vOWmHxZMwQ6ku%2Fb%2B8wsOMH4334DPx7GORu3AROBRmhPDHHhuda8jBYrosLrai6MZQm%2Ffj3mObJeq%2BJSC%2F7oAR2BD%2FYK34gQr0dgj9AStjHdLtRmPIPNp82jzqKhsl8E75qUtzEdN3BQJAOcI%3D&u2=nKeZynzsu5%2BT27hq&width=2560"
+        alt="民间竹编手工艺"
+      >
+      <div class="page-banner-overlay"></div>
+      <div class="page-banner-content">
+        <h1>民间手作</h1>
+        <p>来自田野与村落的智慧，<br>每一件作品都是生活美学的具体表达。</p>
+      </div>
+    </section>
+
+    <!-- CATEGORY OPTIONS -->
+    <div class="category-option-bar">
+      <div class="category-option-inner">
+        <a href="folk.html" class="category-option active">
+          <span class="option-title">全部</span>
+          <span class="option-sub">all</span>
+        </a>
+        <a href="folk.html?type=bamboo" class="category-option">
+          <span class="option-title">竹编</span>
+          <span class="option-sub">bamboo</span>
+        </a>
+        <a href="folk.html?type=embroidery" class="category-option">
+          <span class="option-title">刺绣</span>
+          <span class="option-sub">embroidery</span>
+        </a>
+        <a href="folk.html?type=ceramic" class="category-option">
+          <span class="option-title">陶艺</span>
+          <span class="option-sub">ceramic</span>
+        </a>
+        <a href="folk.html?type=wood" class="category-option">
+          <span class="option-title">木作</span>
+          <span class="option-sub">woodwork</span>
+        </a>
+        <a href="folk.html?type=fabric" class="category-option">
+          <span class="option-title">布艺</span>
+          <span class="option-sub">textile</span>
+        </a>
+        <a href="folk.html?type=rattan" class="category-option">
+          <span class="option-title">藤编</span>
+          <span class="option-sub">rattan</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="main-section">
+      <!-- PRODUCTS -->
+      <div class="section-header">
+        <h2>精选民间手作</h2>
+        <a href="shop.html?cat=folk" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=f1" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=mAdP6tPhy%2FyslYoo0c96tTqzC69QsYvDTvO%2Bu2QInzJFRzpWCPt%2FAJ7A37dQCywR60adYzzwpAzi3EYZeXrk7AKdkjzTbIBHlZ5UbuoTdOVoKiqABTshnDweSc4r%2Bl8vOWmHxZMwQ6ku%2Fb%2B8wsOMH4334DPx7GORu3AROBRmhPDHHhuda8jBYrosLrai6MZQm%2Ffj3mObJeq%2BJSC%2F7oAR2BD%2FYK34gQr0dgj9AStjHdLtRmPIPNp82jzqKhsl8E75qUtzEdN3BQJAOcI%3D&u2=nKeZynzsu5%2BT27hq&width=2560"
+            alt="竹编提篮"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">竹编·四季提篮</div>
+            <div class="product-card-artist">桂竹手艺 · 竹编</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥480</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f2" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=XCXlXw44zBUpNmvWuNoDDLckKInO4J%2ByMOIBPMENB%2FwH3SPU%2F%2BTk%2Fsf3m99TlGnLLvxrJpmQN4O676Nch10vUtv53mDUdy%2BRCm13uQjs3AATBQLsT5L4BjNJlMQsky4m4EStJYPCKXuLk7uaR%2BaqO9jmdfNefGQ%2BaqRloOWq0irJ9Q%3D%3D&u2=9y2ewzwU%2Fj%2Fj4aqs&width=2560"
+            alt="苏绣抱枕"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">苏绣·百鸟朝凤抱枕</div>
+            <div class="product-card-artist">绣娘工坊 · 苏绣</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥1,200</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f3" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=gcIJ8ddrAvbIT%2FQVkWmrY9mIjPgYTxgRkNW9TtJ3k%2FFuRJRP5sLtlY5VSfnD7VssaVMj78YLJ6VlEPGXI3eR1WI5nBpLa8A%2BmrxFz4yYDM3n%2Fd8YG%2Bpfg1gT8SAJRNlHNDPpKAM5oPA84k%2Fs04HASw%2FP0aDLp2QULSLpfn3590%2B3axAcetYzPLlCxBXeduHCvIW5&u2=MXdebtMllp9GuhGH&width=2560"
+            alt="手拉坯陶碗"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">手拉坯·青釉茶碗</div>
+            <div class="product-card-artist">大山陶社 · 陶艺</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥360</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f4" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=7tCNV63m2oXOAn9bNkwZ%2BX%2B4gzl467xB9evyYy6Q%2Fnwrl6NeBs6srRIGulmpfl%2BiQ%2BVSDjLuIxMRYeasbuhXhryYeJzqvkTyhu73qxW8cOg9S1VFl50Ap%2BfDWZ3q%2FH8gFcb%2FVPhViHJQPX8aTqCpD3y%2BDyXx5f7HX5C26pyLLN5ybXpTBgcR%2FHfsK6D%2F17VcNkCGfZaZAQ5ExXeTeGIqzlsEh%2BW4WXjpaUvNjofyIDHo1%2BLp2RrS2GOBpPW%2FVwstqNccMffHCxY0ZYdnzGocZ%2F2YI6Zrw0d8aA%3D%3D&u2=IrXxhSplDuQ8h%2Fjw&width=2560"
+            alt="竹编工艺制作"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">传统竹编花篮</div>
+            <div class="product-card-artist">湖南竹编坊 · 竹编</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥620</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f5" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=UUFITtlPRHPyeeYsOquaU3paubHAXHhu61KyQW23hPPmcpY6%2FpwFvTU8sAEA0f46XSFlmOCvXvzUriRQPyWAbjq3mUYiHjiw9t%2BHMwpgwC66soNWhLTzNqOdbYmzIyO0ExOwmVcHri6B&u2=gJVP89FJwRGx%2FHlw&width=2560"
+            alt="传统藤编篮筐"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">手工藤编·婚庆礼篮</div>
+            <div class="product-card-artist">赣南藤艺 · 藤编</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥880</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f6" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=mNg08l6NJx58YlNWStqlnBl6%2BPs9XEoM6xxyL%2BQZtcFyGBO7KDlpamwKorR2k%2F9Sn0nbdTSxATot%2ByybM9tcCjDpHu5OcD%2BkXqQE5miJB4O9WgLXUr%2BEF%2F9BKMY%3D&u2=eV%2BYCTN9tTxcK5%2Fb&width=2560"
+            alt="中国刺绣工艺"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">苗绣·蝴蝶背包</div>
+            <div class="product-card-artist">黔南苗绣坊 · 苗绣</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥1,680</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f7" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=h2drIQi%2FbsGTYf6PN5BE6WUpFceJ%2Fp02Zivzh%2B1j6ztZSF%2BoiwnpOFPvkHjCUtnK4MYp8XoW2n2FMJ4NhlclH5BSWTI1jok8Xz9YQ5dkDVw3beKFqoYp31pWDlM%3D&u2=H%2BgFP%2Bdh6Mh%2BN4SM&width=2560"
+            alt="传统竹编收纳"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">竹编·圆形收纳盒</div>
+            <div class="product-card-artist">黄山竹艺 · 竹编</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥280</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=f8" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=CPU5yVuzoZ3tdiXpDStPj%2FQNma4yay35XAScIyNX60V5Ytg2gFJZz2Rvs%2FAaOgy832UkEQx6BSP7eM%2FUt7xq9joRjXw07gwF%2Bwm5oVw1AS4tWyXPHRjCyHZvqN%2B%2Bciri3%2FF%2B5Kc1h9WKYntU960rTtspVw%3D%3D&u2=UyTKm%2Bz%2FN9mMA68l&width=2560"
+            alt="竹编工艺品"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">竹丝扣瓷花瓶</div>
+            <div class="product-card-artist">四川工艺坊 · 竹丝</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥3,600</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+      </div>
+
+      <!-- ARTISAN STORY -->
+      <div class="artisan-story">
+        <img
+          src="https://sspark.genspark.ai/cfimages?u1=CuL4UQxw6TSIbXXFMY1DJWrXH99MI%2F%2BPLuXetBvF2qArpAMFb5Z2wm%2F2kp%2BlqDMWB38NZgmIiQF15m71Paoc0DOKF7VdQzwf8YW0mhHnNio2XQ%3D%3D&u2=8m3a0m3ZPjhPer9E&width=2560"
+          alt="匠人手作故事"
+        >
+        <div class="artisan-story-content">
+          <p class="story-tag">匠人志</p>
+          <h3>竹编的秘密：<br>一根竹子的百种可能</h3>
+          <p>桂竹师傅说，竹编是一种"编进去的情感"。每一根竹条，都要从毛竹里刮下来，宽细均匀，再经手汗、时间和耐心的打磨。他的作品，不仅仅是容器，是生命哲学。</p>
+          <a href="art-appreciation.html">阅读匠人故事 <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- ASSURANCE -->
+      <div class="assurance-strip">
+        <div class="assurance-item">
+          <div class="assurance-icon">🛡️</div>
+          <h4>正品保障</h4>
+          <p>每件作品均经平台认证</p>
+        </div>
+        <div class="assurance-item">
+          <div class="assurance-icon">📦</div>
+          <h4>礼盒包装</h4>
+          <p>可选精美礼盒，适合送礼</p>
+        </div>
+        <div class="assurance-item">
+          <div class="assurance-icon">🔄</div>
+          <h4>七天无忧退换</h4>
+          <p>质量问题全额退款</p>
+        </div>
+        <div class="assurance-item">
+          <div class="assurance-icon">✍️</div>
+          <h4>定制服务</h4>
+          <p>大部分作品支持定制</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

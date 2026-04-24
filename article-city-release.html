@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>释放：关于城市、孤独与创作的对话 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .article-hero { position: relative; height: 380px; overflow: hidden; background: #1f2432; }
+    .article-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .article-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,20,32,0.82) 0%, rgba(18,20,32,0.3) 65%, rgba(18,20,32,0.15) 100%); }
+    .article-hero-content { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); width: 100%; max-width: 1200px; padding: 0 var(--page-gutter); z-index: 2; color: #fff; }
+    .article-hero-content .tag { font-size: 12px; letter-spacing: 2px; color: #98b5ff; margin-bottom: 10px; }
+    .article-hero-content h1 { font-family: 'Noto Serif SC', serif; font-size: 36px; line-height: 1.35; margin-bottom: 10px; }
+    .article-hero-content .meta { font-size: 12px; color: #cad4f7; display: flex; gap: 14px; flex-wrap: wrap; }
+    .article-wrap { max-width: 1200px; margin: 0 auto; padding: 40px var(--page-gutter) 64px; display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
+    .article-body { font-size: 15px; color: #2e2c28; line-height: 2; }
+    .article-body h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; margin: 24px 0 14px; }
+    .article-body p { margin-bottom: 14px; }
+    .article-body blockquote { border-left: 3px solid #5050c8; padding: 10px 16px; margin: 16px 0; color: #3d4182; background: #f2f3ff; }
+    .article-side { border-left: 1px solid #e9e3d8; padding-left: 20px; }
+    .side-card h3 { font-family: 'Noto Serif SC', serif; font-size: 16px; margin-bottom: 12px; }
+    .side-card a { display: block; margin-bottom: 10px; color: #3e3a33; font-size: 13px; text-decoration: none; }
+    .side-card a:hover { color: #5050c8; }
+    @media (max-width: 900px) { .article-wrap { grid-template-columns: 1fr; } .article-side { border-left: none; padding-left: 0; } .article-hero-content h1 { font-size: 28px; } }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="article-hero">
+      <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1800&auto=format&fit=crop" alt="城市中的青年艺术家工作室">
+      <div class="article-hero-content">
+        <p class="tag">青年创作 · 专访</p>
+        <h1>释放：专访80后艺术家，关于城市、孤独与创作的对话</h1>
+        <div class="meta">
+          <span><i class="fas fa-user"></i> Blend Lumina 编辑部</span>
+          <span><i class="fas fa-calendar"></i> 2025年2月</span>
+          <span><i class="fas fa-clock"></i> 12分钟阅读</span>
+        </div>
+      </div>
+    </section>
+    <section class="article-wrap">
+      <article class="article-body">
+        <p>在高密度城市生活中，艺术家的“独处”并不意味着远离现实，而是与现实进行更深层的对话。王磊的作品常出现空旷街景与压缩人物，这种张力来自他对城市节奏的长期观察。</p>
+        <h2>创作不是表达情绪，而是组织情绪</h2>
+        <p>“很多人以为艺术创作靠冲动，但冲动只是一秒钟。真正艰难的是之后的结构与判断。”王磊说。他每天固定工作六小时，先写词，再画线，最后定色。</p>
+        <blockquote>“我画的不是城市本身，而是城市在人心里留下的形状。”</blockquote>
+        <h2>当代青年艺术的共同命题</h2>
+        <p>从“个体经验”出发，是这代艺术家的共识。他们不再追求宏大叙事，而是把目光对准微小而真实的生活切片：地铁、出租屋、深夜便利店、公共空间的孤独感。</p>
+        <p>正因为具体，所以能够被更多人共鸣。这也是青年创作被更多收藏者关注的原因。</p>
+      </article>
+      <aside class="article-side">
+        <div class="side-card">
+          <h3>继续阅读</h3>
+          <a href="article-indigo-philosophy.html">靛蓝的哲学：为什么扎染是最有温度的艺术</a>
+          <a href="article-bamboo-time.html">竹编的时间：一根竹子需要多少年才能成为艺术</a>
+          <a href="article-street-art-shift.html">当涂鸦遇见艺术馆：身份转变之路</a>
+          <a href="art-appreciation.html"><i class="fas fa-arrow-left"></i> 返回艺术鉴赏列表</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

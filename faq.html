@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>帮助中心 FAQ - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .faq-banner {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+      background: #142b2b;
+    }
+    .faq-banner img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+    }
+    .faq-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(12,24,24,0.85) 30%, rgba(12,24,24,0.35) 70%, rgba(12,24,24,0.2) 100%);
+    }
+    .faq-banner-content {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 var(--page-gutter);
+      z-index: 2;
+      color: #fff;
+    }
+    .faq-banner-content .tag {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #96d3d3;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .faq-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    .faq-banner-content p {
+      font-size: 14px;
+      color: #c5dcda;
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    .faq-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px var(--page-gutter) 60px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .faq-sidebar {
+      position: sticky;
+      top: 88px;
+      background: #fff;
+      border: 1px solid #e7e1d6;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .faq-sidebar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+    }
+    .faq-cat {
+      width: 100%;
+      border: 1px solid #ded8cc;
+      background: #fff;
+      border-radius: 8px;
+      padding: 9px 10px;
+      margin-bottom: 8px;
+      text-align: left;
+      font-size: 13px;
+      color: #4e473e;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .faq-cat:hover,
+    .faq-cat.active {
+      border-color: #2d6a6a;
+      color: #2d6a6a;
+      background: #eef8f6;
+      font-weight: 600;
+    }
+    .faq-content {
+      min-width: 0;
+    }
+    .faq-tools {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .faq-search {
+      position: relative;
+    }
+    .faq-search input {
+      width: 100%;
+      border: 1px solid #ded8cc;
+      border-radius: 999px;
+      padding: 11px 14px 11px 38px;
+      font-size: 14px;
+      background: #fff;
+    }
+    .faq-search i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #958879;
+      font-size: 13px;
+    }
+    .faq-count {
+      font-size: 13px;
+      color: #6f675c;
+      align-self: center;
+      white-space: nowrap;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .faq-item {
+      border: 1px solid #e8e2d8;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .faq-q {
+      width: 100%;
+      border: none;
+      background: #fff;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .faq-q strong {
+      font-size: 15px;
+      color: #1f1b16;
+      line-height: 1.6;
+    }
+    .faq-q i {
+      color: #7c7264;
+      margin-top: 4px;
+      transition: transform .2s;
+    }
+    .faq-item.open .faq-q i { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .25s ease;
+      background: #fbf9f6;
+      border-top: 1px solid #efe8de;
+    }
+    .faq-a-inner {
+      padding: 0 16px 16px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: #4f463a;
+    }
+    .faq-item.open .faq-a { max-height: 240px; }
+    .hl {
+      background: #fff2b8;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+    .faq-empty {
+      display: none;
+      border: 1px dashed #d9d1c6;
+      border-radius: 10px;
+      padding: 24px;
+      text-align: center;
+      color: #7e7466;
+      background: #fff;
+    }
+    .faq-empty.show { display: block; }
+    @media (max-width: 900px) {
+      .faq-main { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; }
+      .faq-tools { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="faq-banner">
+      <img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?q=80&w=2400&auto=format&fit=crop" alt="帮助中心">
+      <div class="faq-banner-content">
+        <p class="tag">Help Center · FAQ</p>
+        <h1>常见问题</h1>
+        <p>20 个高频问题一站式解答。你可以通过分类或关键词快速定位到需要的答案。</p>
+      </div>
+    </section>
+
+    <section class="faq-main">
+      <aside class="faq-sidebar">
+        <h3>问题分类</h3>
+        <button class="faq-cat active" data-cat="all">全部问题</button>
+        <button class="faq-cat" data-cat="order">下单与支付</button>
+        <button class="faq-cat" data-cat="shipping">物流与售后</button>
+        <button class="faq-cat" data-cat="account">账户与安全</button>
+        <button class="faq-cat" data-cat="artist">艺术家入驻</button>
+        <button class="faq-cat" data-cat="platform">平台与版权</button>
+      </aside>
+
+      <div class="faq-content">
+        <div class="faq-tools">
+          <div class="faq-search">
+            <i class="fas fa-search"></i>
+            <input id="faq-search-input" type="text" placeholder="搜索关键词，如：运费、退款、入驻、发票">
+          </div>
+          <div class="faq-count" id="faq-count">共 20 条问题</div>
+        </div>
+
+        <div class="faq-empty" id="faq-empty">
+          没有找到匹配的问题。尝试更换关键词，或切换问题分类。
+        </div>
+
+        <div class="faq-list" id="faq-list">
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>1. What is Blend Lumina? / Blend Lumina 是什么平台？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Blend Lumina is a student-founded platform that helps creators share their work, stories, and perspectives through curation, storytelling, and meaningful connection.<br>Blend Lumina 是一个由学生创办的平台，通过策展、故事表达与真实连接，帮助创作者分享他们的作品、故事与独特视角。</div></div>
+          </div>
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>2. Who is Blend Lumina for? / Blend Lumina 适合哪些创作者与用户？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Blend Lumina supports a wide range of creators, including young artists, grassroots folk artists, street culture artists, and creators rooted in traditional culture and intangible cultural heritage. It is also for audiences who want to discover works with story, meaning, and character.<br>Blend Lumina 关注多元创作者，包括青少年艺术创作者、草根民间艺术家、街头文化艺术者，以及扎根传统文化与非遗技艺的创作者。同时，它也面向希望发现更有故事、意义与个性作品的用户。</div></div>
+          </div>
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>3. What kinds of works can be featured on the platform? / 平台支持哪些类型的作品？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">We currently welcome selected creative works in both physical and digital formats, including illustration, handmade pieces, prints, cultural craft-inspired works, and other meaningful artistic creations.<br>目前平台欢迎经过筛选的实体与数字创作作品，包括插画、手作、版画、受传统工艺或文化启发的创作，以及其他具有表达性与意义的艺术作品。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>4. How can I join Blend Lumina as a creator? / 如何申请成为创作者？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">You can apply by submitting your basic profile, work samples, and information about the story behind your creations. Our team will review your submission before your work goes live.<br>你可以通过提交基本个人信息、作品样本，以及作品背后的故事说明来申请成为创作者。平台会在作品正式上线前进行审核。</div></div>
+          </div>
+
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>5. Do creators need to go through a review process? / 创作者入驻是否需要审核？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes. We review creators and works to ensure they align with the platform’s values, content standards, and overall quality expectations.<br>是的。平台会对创作者与作品进行审核，以确保其符合平台的价值取向、内容规范与整体质量要求。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>6. What do I need before listing my work? / 发布作品前需要准备哪些内容？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">You will usually need clear images of your work, a title, a short description, pricing information, and basic background about the story or meaning behind the piece.<br>通常你需要准备清晰的作品图片、作品标题、简要介绍、价格信息，以及作品背后的故事或意义说明。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>7. How does Blend Lumina help creators? / Blend Lumina 如何帮助创作者？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">We support creators through storytelling, curation, and connection — helping works move beyond simple display and reach audiences who value meaningful creative expression.<br>我们通过故事表达、策展呈现与建立连接来支持创作者，帮助作品不只停留在展示层面，而是触达真正重视有意义创作表达的用户。</div></div>
+          </div>
+          <div class="faq-item" data-cat="order">
+            <button class="faq-q"><strong>8. How can users purchase works on Blend Lumina? / 用户如何购买作品？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Users can browse works on the platform and complete purchases through the supported checkout process. Details may vary depending on whether the work is physical or digital.<br>用户可以在平台浏览作品，并通过支持的购买流程完成下单。具体流程会根据作品是实体还是数字形式而有所不同。</div></div>
+          </div>
+
+          <div class="faq-item" data-cat="shipping">
+            <button class="faq-q"><strong>9. What is the difference between physical and digital works? / 实体作品和数字作品有什么区别？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Physical works usually require shipping or delivery, while digital works may be delivered or accessed online depending on the format and creator.<br>实体作品通常需要寄送或配送；数字作品则会根据作品形式和创作者设置，通过线上方式交付或访问。</div></div>
+          </div>
+          <div class="faq-item" data-cat="shipping">
+            <button class="faq-q"><strong>10. Can I cancel, return, or request a refund? / 是否支持取消订单、退货或退款？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Refund and return policies may vary depending on the type of work and order status. Please refer to the platform’s order and refund policy for details.<br>取消订单、退货与退款规则会根据作品类型和订单状态有所不同。具体请以平台的订单与退款政策为准。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>11. How do creators receive income from sales? / 创作者如何获得收入？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">Creator earnings are processed through the platform according to the payment and settlement rules. Eligible earnings can be viewed and managed in the creator account.<br>创作者的销售收入将根据平台的支付与结算规则进行处理。符合结算条件的收入可在创作者账户中查看与管理。</div></div>
+          </div>
+          <div class="faq-item" data-cat="account">
+            <button class="faq-q"><strong>12. What should I do if I have a problem with my order or account? / 如果遇到账户、订单或支付问题怎么办？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">If you experience issues related to your account, payments, or orders, please contact the Blend Lumina support team for assistance.<br>如果你在账户、支付或订单方面遇到问题，请联系 Blend Lumina 支持团队获取帮助。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>13. 入驻审核的核心标准是什么？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">主要评估原创性、创作稳定性、作品质量与合规性，同时关注作品故事表达与市场匹配度。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>14. 平台分成比例是多少？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">标准合作中，艺术家可获得成交额的主要部分（当前说明页为 85%）。特殊项目按协议执行。</div></div>
+          </div>
+          <div class="faq-item" data-cat="artist">
+            <button class="faq-q"><strong>15. 我可以上架定制作品吗？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">支持。可在作品后台设置可定制项、工期、沟通范围与价格区间。</div></div>
+          </div>
+
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>16. 平台如何保证作品真实性？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">平台对入驻艺术家进行实名与履历核验，并对重点作品进行来源与资料复核。</div></div>
+          </div>
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>17. 作品版权归谁所有？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">版权原则上归艺术家本人。平台享有展示与推广授权，具体以合作协议为准。</div></div>
+          </div>
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>18. 我可以商用已购买作品图片吗？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">不可以直接商用。若涉及出版、品牌传播等用途，需另行获得版权方书面授权。</div></div>
+          </div>
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>19. 如何联系客服？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">可通过页面右下角在线客服、邮件联系或“关于我们-联系我们”提交需求。</div></div>
+          </div>
+          <div class="faq-item" data-cat="platform">
+            <button class="faq-q"><strong>20. 公益承诺具体如何执行？</strong><i class="fas fa-chevron-down"></i></button>
+            <div class="faq-a"><div class="faq-a-inner">平台按订单规则提取公益比例用于教育支持项目，并在年度报告中公示执行进度。</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+  <script>
+    const catButtons = document.querySelectorAll('.faq-cat');
+    const faqItems = Array.from(document.querySelectorAll('.faq-item'));
+    const searchInput = document.getElementById('faq-search-input');
+    const faqCount = document.getElementById('faq-count');
+    const emptyEl = document.getElementById('faq-empty');
+
+    let activeCat = 'all';
+
+    function normalize(str) {
+      return (str || '').toLowerCase().trim();
+    }
+
+    function clearHighlights(el) {
+      el.querySelectorAll('.hl').forEach(node => {
+        const text = document.createTextNode(node.textContent);
+        node.replaceWith(text);
+      });
+    }
+
+    function highlightText(el, keyword) {
+      clearHighlights(el);
+      const k = normalize(keyword);
+      if (!k) return;
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      const targets = [];
+      while (walker.nextNode()) {
+        const n = walker.currentNode;
+        if (normalize(n.nodeValue).includes(k)) targets.push(n);
+      }
+      targets.forEach(node => {
+        const text = node.nodeValue;
+        const low = text.toLowerCase();
+        const idx = low.indexOf(k);
+        if (idx < 0) return;
+        const before = document.createTextNode(text.slice(0, idx));
+        const mark = document.createElement('mark');
+        mark.className = 'hl';
+        mark.textContent = text.slice(idx, idx + k.length);
+        const after = document.createTextNode(text.slice(idx + k.length));
+        const frag = document.createDocumentFragment();
+        frag.append(before, mark, after);
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
+
+    function applyFilter() {
+      const keyword = searchInput.value.trim();
+      let visible = 0;
+      faqItems.forEach(item => {
+        const cat = item.dataset.cat;
+        const text = item.innerText;
+        const catOk = activeCat === 'all' || cat === activeCat;
+        const keywordOk = !keyword || normalize(text).includes(normalize(keyword));
+        const show = catOk && keywordOk;
+        item.style.display = show ? '' : 'none';
+        if (show) {
+          visible += 1;
+          highlightText(item, keyword);
+        } else {
+          clearHighlights(item);
+          item.classList.remove('open');
+        }
+      });
+      faqCount.textContent = `共 ${visible} 条问题`;
+      emptyEl.classList.toggle('show', visible === 0);
+    }
+
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.dataset.cat;
+        applyFilter();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilter);
+
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const opening = !item.classList.contains('open');
+        faqItems.forEach(i => i.classList.remove('open'));
+        if (opening) item.classList.add('open');
+      });
+    });
+
+    applyFilter();
+  </script>
+</body>
+</html>

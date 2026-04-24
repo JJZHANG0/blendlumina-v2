@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    body { background: #f5f0e8; }
+    .login-page {
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; margin-top: 0;
+    }
+    .login-visual {
+      position: relative; overflow: hidden; min-height: 400px;
+    }
+    .login-visual img {
+      width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;
+    }
+    .login-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,20,20,0.8), rgba(45,106,106,0.6));
+    }
+    .login-visual-content {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; z-index: 2; text-align: center; padding: 40px;
+    }
+    .login-logo { font-family: 'Noto Serif SC', serif; font-size: 36px; font-weight: 700; color: #fff; letter-spacing: 4px; margin-bottom: 12px; }
+    .login-tagline { font-size: 14px; color: #c0e0d8; line-height: 1.9; }
+
+    .login-form-area {
+      background: #fff; display: flex; align-items: center; justify-content: center; padding: 60px 40px;
+    }
+    .login-box { width: 100%; max-width: 400px; }
+    .login-box h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 26px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .login-box .subtitle { font-size: 14px; color: #8a7a6a; margin-bottom: 32px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+    .form-input {
+      width: 100%; padding: 12px 14px; border: 1.5px solid #e0d8c8;
+      border-radius: 6px; font-size: 14px; color: #1a1a1a;
+      background: #faf8f4; transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form-input:focus { outline: none; border-color: #2d6a6a; background: #fff; }
+    .form-input-icon { position: relative; }
+    .form-input-icon .form-input { padding-left: 40px; }
+    .form-input-icon i {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: #a0906a; font-size: 14px;
+    }
+
+    .form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .remember { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #5a5040; cursor: pointer; }
+    .remember input { accent-color: #2d6a6a; }
+    .forgot { font-size: 13px; color: #2d6a6a; text-decoration: none; }
+    .forgot:hover { text-decoration: underline; }
+
+    .btn-login {
+      display: block; width: 100%; padding: 14px; background: #2d6a6a;
+      color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; text-align: center; margin-bottom: 16px;
+    }
+    .btn-login:hover { background: #1e4e4e; }
+
+    .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .divider span { font-size: 12px; color: #a0906a; white-space: nowrap; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e0d8c8; }
+
+    .register-link { text-align: center; font-size: 14px; color: #5a5040; }
+    .register-link a { color: #2d6a6a; text-decoration: none; font-weight: 600; }
+    .register-link a:hover { text-decoration: underline; }
+    .artist-link { text-align: center; margin-top: 16px; }
+    .artist-link a { font-size: 13px; color: #8a7a6a; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .artist-link a:hover { color: #2d6a6a; }
+
+    .error-msg { color: #e05050; font-size: 13px; margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+
+    @media (max-width: 768px) {
+      .login-page { grid-template-columns: 1fr; }
+      .login-visual { min-height: 200px; }
+      .login-form-area { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <div class="login-page" style="min-height:calc(100vh - 60px);">
+    <!-- VISUAL -->
+    <div class="login-visual">
+      <img src="https://sspark.genspark.ai/cfimages?u1=Odey6t1dHeV%2FPHmsM%2FBvq6MHIsOowvWRhHfVGTf2gPpWftdRum62Mc6eZVKgr54yRpWCnHoULn7H1NsdZKuvnaN%2BQezUJaXX0uUrnDZVG%2FTWaRQUeU9qn3KO%2F%2B7apSoiF7BIeD3G0cOuvq7B0mibTe7aGwW3O1vLAg%3D%3D&u2=x7Ns2XOz6OtqzsBi&width=2560" alt="登录背景">
+      <div class="login-visual-overlay"></div>
+      <div class="login-visual-content">
+        <p class="login-logo">Blend Lumina</p>
+        <p class="login-tagline">看见艺术，看见故事，看见价值<br>连接你与每一位真实的创作者</p>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="login-form-area">
+      <div class="login-box">
+        <h2>欢迎回来</h2>
+        <p class="subtitle">登录你的 Blend Lumina 账号</p>
+
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>邮箱/手机号</label>
+            <div class="form-input-icon">
+              <i class="fas fa-user"></i>
+              <input id="login-email" type="text" class="form-input" placeholder="请输入邮箱或手机号">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>密码</label>
+            <div class="form-input-icon">
+              <i class="fas fa-lock"></i>
+              <input id="login-pwd" type="password" class="form-input" placeholder="请输入密码">
+            </div>
+            <p class="error-msg" id="login-error">账号或密码错误，请重试</p>
+          </div>
+          <div class="form-row">
+            <label class="remember"><input type="checkbox" checked> 记住我</label>
+            <a href="#" class="forgot">忘记密码？</a>
+          </div>
+          <button type="submit" class="btn-login">登录</button>
+        </form>
+
+        <div class="divider"><span>或</span></div>
+        <p class="register-link">还没有账号？<a href="register.html">立即注册</a></p>
+        <div class="artist-link" style="margin-top:20px;">
+          <a href="artist-apply.html"><i class="fas fa-paint-brush"></i> 艺术家入驻申请</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/common.js"></script>
+  <script>
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const pwd = document.getElementById('login-pwd').value;
+      const errEl = document.getElementById('login-error');
+
+      if (!email || !pwd) {
+        errEl.textContent = '请填写邮箱/手机号和密码';
+        errEl.classList.add('show');
+        return;
+      }
+      // Check against registered users
+      const users = JSON.parse(localStorage.getItem('bl_users') || '[]');
+      const user = users.find(u => (u.email === email || u.phone === email) && u.password === pwd);
+      if (user) {
+        localStorage.setItem('bl_current_user', JSON.stringify(user));
+        alert('登录成功！欢迎回来，' + user.name);
+        window.location.href = 'index.html';
+      } else {
+        // Demo: allow any login for testing
+        const demoUser = { name: email.split('@')[0] || '用户', email: email };
+        localStorage.setItem('bl_current_user', JSON.stringify(demoUser));
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>

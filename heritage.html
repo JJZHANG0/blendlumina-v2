@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>传统与非遗 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    /* ===== PAGE BANNER ===== */
+    .page-banner {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      overflow: hidden;
+      background: #f0ece4;
+    }
+    .page-banner img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .page-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(240,236,228,0.95) 35%, rgba(240,236,228,0.55) 65%, transparent 100%);
+    }
+    .page-banner-content {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      padding: 0 6%;
+      z-index: 3;
+      max-width: 560px;
+    }
+    .page-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .page-banner-content p {
+      font-size: 14px;
+      color: #5a5040;
+      line-height: 1.9;
+      max-width: 380px;
+    }
+
+    /* ===== UNIFIED CATEGORY OPTION BAR ===== */
+    .category-option-bar {
+      background: #fff;
+      border-top: 1px solid #ece6db;
+      border-bottom: 1px solid #ece6db;
+      padding: 14px 0;
+    }
+    .category-option-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .category-option {
+      position: relative;
+      min-height: 60px;
+      border: 1px solid #d9e4e1;
+      border-radius: 8px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
+      background: #fff;
+    }
+    .category-option::after {
+      content: "";
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 0;
+      height: 2px;
+      background: #2d6a6a;
+      transform: scaleX(0);
+      transition: transform 0.24s ease;
+    }
+    .category-option .option-title { font-size: 13px; color: #46524f; }
+    .category-option .option-sub {
+      margin-top: 2px;
+      font-size: 10px;
+      color: #8fa4a0;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+    .category-option:hover,
+    .category-option.active {
+      transform: translateY(-2px);
+      border-color: rgba(45,106,106,0.54);
+      box-shadow: 0 8px 20px rgba(45,106,106,0.14);
+      background: #f4f9f8;
+    }
+    .category-option:hover::after,
+    .category-option.active::after { transform: scaleX(1); }
+    .category-option.active .option-title { color: #2d6a6a; font-weight: 600; }
+
+    /* ===== SUBCATEGORY CARDS ===== */
+    .sub-section { max-width: 1200px; margin: 0 auto; padding: 48px 24px 0; }
+    .sub-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 24px;
+    }
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .sub-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 3/2;
+      text-decoration: none;
+      display: block;
+    }
+    .sub-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .sub-card:hover img { transform: scale(1.06); }
+    .sub-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+      padding: 24px 14px 14px;
+      color: #fff;
+    }
+    .sub-card-label h4 { font-size: 15px; font-weight: 600; }
+    .sub-card-label span { font-size: 11px; opacity: 0.85; }
+
+    /* ===== PRODUCT GRID ===== */
+    .product-section { max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .section-header h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .view-all { font-size: 13px; color: #2d6a6a; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .view-all:hover { text-decoration: underline; }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      border: 1px solid #e8e0d0;
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .product-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+    }
+    .product-card-body { padding: 14px 14px 8px; flex: 1; }
+    .product-card-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+    .product-card-artist { font-size: 12px; color: #8a7a6a; }
+    .product-card-footer {
+      padding: 10px 14px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-card-price { font-size: 16px; font-weight: 700; color: #2d6a6a; }
+    .heart-btn {
+      background: none; border: none; cursor: pointer;
+      color: #c0a080; font-size: 16px; padding: 4px;
+      transition: color 0.2s;
+    }
+    .heart-btn:hover, .heart-btn.active { color: #e05050; }
+
+    @media (max-width: 900px) {
+      .page-banner { height: 320px; }
+      .page-banner-content h1 { font-size: 28px; }
+      .sub-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-option-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .page-banner { height: 260px; }
+      .sub-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <!-- ===== PAGE BANNER ===== -->
+    <section class="page-banner">
+      <img
+        src="https://sspark.genspark.ai/cfimages?u1=cz3%2FVj%2BnTpbJi2P%2FTmAeA%2BL53%2FiRMf%2FH0Frj5OAzihr55IQw2XjIZpNVeUrLHuJxX5auR3MhGIoxPEQohzq%2B5gFRCzicP4A%2BUfLfI3c4cVRiXe7lUFfMM0yKRUOUr0H%2BGiMaBVOnCPBsFuxjN0iALYbaujEJgQ%3D%3D&u2=y%2BOMIzaom8JVoSfZ&width=2560"
+        alt="传统与非遗·匠心传承"
+      >
+      <div class="page-banner-overlay"></div>
+      <div class="page-banner-content">
+        <h1>传统与非遗</h1>
+        <p>守护文化根脉，传承手艺智慧。<br>在这里，每一件作品都承载着世代匠人的心血与记忆。</p>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORY OPTIONS ===== -->
+    <div class="category-option-bar" aria-label="分类导航">
+      <div class="category-option-inner">
+        <a href="heritage.html" class="category-option active">
+          <span class="option-title">全部</span>
+          <span class="option-sub">all</span>
+        </a>
+        <a href="heritage-dyeing.html" class="category-option">
+          <span class="option-title">染织与纤维</span>
+          <span class="option-sub">textile</span>
+        </a>
+        <a href="heritage.html#metalwork" class="category-option">
+          <span class="option-title">金工与镶嵌</span>
+          <span class="option-sub">metalwork</span>
+        </a>
+        <a href="heritage.html#papercut" class="category-option">
+          <span class="option-title">剪纸与纸艺</span>
+          <span class="option-sub">paper art</span>
+        </a>
+        <a href="heritage.html#lacquer" class="category-option">
+          <span class="option-title">漆器与木作</span>
+          <span class="option-sub">lacquer</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== SUBCATEGORY CARDS ===== -->
+    <section class="sub-section" id="subcategories">
+      <h2>探索分类</h2>
+      <div class="sub-grid">
+        <a href="heritage-dyeing.html" class="sub-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=mJMt90lXLsATFg%2BOCeMWdg6WzgExC6idjrrjXIiwLQ%2Fc1b%2Btv8dPphUUrBVBjhkWd%2BYV2Lf8PZLDfRlIcLc5OvkTGReUiwvASctN7qEg4Bt5lAXERK1udElqvliF2MZtuiCfrpsy5E5QDa4lsw0%3D&u2=Eu5rid4I%2BS8U01fH&width=2560"
+            alt="染织与纤维"
+          >
+          <div class="sub-card-label">
+            <h4>染织与纤维</h4>
+            <span>42 件作品</span>
+          </div>
+        </a>
+        <a href="heritage.html#metalwork" class="sub-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=VV%2BIlU%2Ff26F6rDbW28YCIGlzFkEX7JJ9cRDEAGoYVywWsgS7%2BYT504Lm4lYUCaTjVF4fsuANJfTcuen27x8Wf8TKPWZe8kjTRc0Tl26A66XM9ujl8j2GPvqkm6B2ITsjjmdrFxlXjD39211g&u2=2%2Brhg3T4HGn6nwqh&width=2560"
+            alt="金工与镶嵌"
+          >
+          <div class="sub-card-label">
+            <h4>金工与镶嵌</h4>
+            <span>28 件作品</span>
+          </div>
+        </a>
+        <a href="heritage.html#papercut" class="sub-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=Vly4PX%2B3Bph4%2FFDmpOuKRdxZCxXkYnb6ZnOLfoGpLzlPp2HVSvNqG4dAqY7YwKFuFZs%2FdXl7WeERUCkjpsQEp7SQQllbohKtoiHTXmm95qBXCCDvA%2Bwnad97BQS7xicjQxH8DChm9HcRy8xqsJrU0rbX87VNCV8fa49R3IPKhIh4Zi8ZrqpkcB3%2B6ce0ImWiZw1p158%3D&u2=X0VFbemr%2BWSUcULj&width=2560"
+            alt="剪纸与纸艺"
+          >
+          <div class="sub-card-label">
+            <h4>剪纸与纸艺</h4>
+            <span>19 件作品</span>
+          </div>
+        </a>
+        <a href="heritage.html#lacquer" class="sub-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=YrIiyPVEi3n5kIu%2FHAm3Lwf9%2FBO4pRRciNXvS1DMdUBgNb%2BNyl7oswOkYwwVLCVAVmOVimjc%2FN60yLpFbioBx4UxlDT1enSuWGuYTH9rxMMQjaMy3FZfonG6CmscomB18N%2Fmx7UN11bC&u2=lIB6lpBmMAaXqHVO&width=2560"
+            alt="漆器与木作"
+          >
+          <div class="sub-card-label">
+            <h4>漆器与木作</h4>
+            <span>31 件作品</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== FEATURED PRODUCTS ===== -->
+    <section class="product-section">
+      <div class="section-header">
+        <h2>精选非遗作品</h2>
+        <a href="shop.html?cat=heritage" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=h1" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=mJMt90lXLsATFg%2BOCeMWdg6WzgExC6idjrrjXIiwLQ%2Fc1b%2Btv8dPphUUrBVBjhkWd%2BYV2Lf8PZLDfRlIcLc5OvkTGReUiwvASctN7qEg4Bt5lAXERK1udElqvliF2MZtuiCfrpsy5E5QDa4lsw0%3D&u2=Eu5rid4I%2BS8U01fH&width=2560"
+            alt="云锦缎面围巾"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">云锦缎面围巾</div>
+            <div class="product-card-artist">苏州云锦坊 · 染织</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥1,680</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h2" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=YrIiyPVEi3n5kIu%2FHAm3Lwf9%2FBO4pRRciNXvS1DMdUBgNb%2BNyl7oswOkYwwVLCVAVmOVimjc%2FN60yLpFbioBx4UxlDT1enSuWGuYTH9rxMMQjaMy3FZfonG6CmscomB18N%2Fmx7UN11bC&u2=lIB6lpBmMAaXqHVO&width=2560"
+            alt="朱漆描金碗"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">朱漆描金碗</div>
+            <div class="product-card-artist">福州漆艺坊 · 漆器</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥2,200</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h3" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=XCXlXw44zBUpNmvWuNoDDLckKInO4J%2ByMOIBPMENB%2FwH3SPU%2F%2BTk%2Fsf3m99TlGnLLvxrJpmQN4O676Nch10vUtv53mDUdy%2BRCm13uQjs3AATBQLsT5L4BjNJlMQsky4m4EStJYPCKXuLk7uaR%2BaqO9jmdfNefGQ%2BaqRloOWq0irJ9Q%3D%3D&u2=9y2ewzwU%2Fj%2Fj4aqs&width=2560"
+            alt="苏绣团扇"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">苏绣·荷塘月色团扇</div>
+            <div class="product-card-artist">绣娘工坊 · 刺绣</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥3,800</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h4" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=VV%2BIlU%2Ff26F6rDbW28YCIGlzFkEX7JJ9cRDEAGoYVywWsgS7%2BYT504Lm4lYUCaTjVF4fsuANJfTcuen27x8Wf8TKPWZe8kjTRc0Tl26A66XM9ujl8j2GPvqkm6B2ITsjjmdrFxlXjD39211g&u2=2%2Brhg3T4HGn6nwqh&width=2560"
+            alt="传统手工艺精品"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">中国传统工艺精选集</div>
+            <div class="product-card-artist">中华工艺馆 · 综合工艺</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥4,500</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h5" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=mNg08l6NJx58YlNWStqlnBl6%2BPs9XEoM6xxyL%2BQZtcFyGBO7KDlpamwKorR2k%2F9Sn0nbdTSxATot%2ByybM9tcCjDpHu5OcD%2BkXqQE5miJB4O9WgLXUr%2BEF%2F9BKMY%3D&u2=eV%2BYCTN9tTxcK5%2Fb&width=2560"
+            alt="中国刺绣工艺"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">湘绣·双面绣熊猫</div>
+            <div class="product-card-artist">湘绣大师 · 湘绣</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥5,600</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h6" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=CNvmHwWsOd5hpMNuLKQ0YKVmv5yz5TLLCTAw1tx5UOQTFqySAEswKGk%2BgHGT4KsjEEM%2FJdM2Nk2No9dTqNXH1LHGSkicZ6qBN6OvIzPGw0hun8PSU1o%3D&u2=SJcp%2FJUQnAvdY349&width=2560"
+            alt="传统工艺文化"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">景泰蓝掐丝珐琅瓶</div>
+            <div class="product-card-artist">北京宫廷工艺 · 景泰蓝</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥8,800</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h7" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=ehkBP4xzJjXD5VV%2B6uxsG05aXxeBQ2sa3V3iSR4Dgf9AgDMx5MdFtEC7jM0uYrjdCZPUC9GHBOu7ttKn%2Fk6JRN8Hh9v4KdQXO7VxKsLpo7glUDICRLYh1L%2FuuvQZNEODEx1SoEJusHd%2BtlchyQvBuw%3D%3D&u2=AX0tGkJm6TIeGUHw&width=2560"
+            alt="中国传统手工艺品"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">云南蜡染纯棉桌旗</div>
+            <div class="product-card-artist">云南蜡染社 · 蜡染</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥420</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+        <a href="product-detail.html?id=h8" class="product-card">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=LhEdx%2Fc9OacMdF8JhCI11iOOPxXJoJhrLGLXUEtpuASbdOJailpPRoEuk%2BaHWkdnvHd1O%2BPjsd7xMPEEPPdGAflvasNFg1i55HRUErYJLFrjzEcut%2B%2BDqrBLdqMLQvxoPQi%2F3MBrQ0StgktY058nBvs%3D&u2=KgwiEwmqeRZnXRfr&width=2560"
+            alt="中国传统手工礼物"
+          >
+          <div class="product-card-body">
+            <div class="product-card-title">竹丝扣瓷·山水摆件</div>
+            <div class="product-card-artist">四川工艺院 · 竹丝扣瓷</div>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">¥12,000</span>
+            <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>

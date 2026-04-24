@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扎染 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .page-banner {
+      position: relative; width: 100%; height: 420px;
+      overflow: hidden; background: #1a3a5c;
+    }
+    .page-banner img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+    }
+    .page-banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(10,30,50,0.85) 35%, rgba(10,30,50,0.45) 65%, transparent 100%);
+    }
+    .page-banner-content {
+      position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+      padding: 0 6%; z-index: 3; max-width: 560px;
+    }
+    .page-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 44px; font-weight: 700; color: #fff;
+      letter-spacing: 6px; margin-bottom: 12px; line-height: 1.3;
+    }
+    .page-banner-content p { font-size: 14px; color: #cce0e8; line-height: 1.9; max-width: 380px; }
+    .banner-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 4px 14px; font-size: 12px; color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .nav-tabs-bar {
+      background: #fff; border-bottom: 1px solid #e8e0d0;
+      position: sticky; top: 60px; z-index: 100;
+    }
+    .nav-tabs-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; gap: 0; overflow-x: auto;
+    }
+    .nav-tab {
+      padding: 14px 24px; font-size: 14px; color: #5a5040;
+      text-decoration: none; border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all 0.2s;
+    }
+    .nav-tab:hover { color: #2d6a6a; }
+    .nav-tab.active { color: #2d6a6a; border-bottom-color: #2d6a6a; font-weight: 600; }
+
+    /* Intro strip */
+    .intro-strip {
+      background: #f0f7f8; border-bottom: 1px solid #d8eaec;
+      padding: 20px 0;
+    }
+    .intro-strip .inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .intro-item {
+      display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px;
+    }
+    .intro-icon { font-size: 22px; }
+    .intro-text h4 { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+    .intro-text p { font-size: 12px; color: #5a7070; }
+
+    /* Listing */
+    .listing-layout {
+      max-width: 1200px; margin: 0 auto; padding: 36px 24px 60px;
+      display: grid; grid-template-columns: 240px 1fr; gap: 32px;
+    }
+    .filter-sidebar { position: sticky; top: 120px; align-self: start; }
+    .filter-group { margin-bottom: 24px; }
+    .filter-group h4 {
+      font-size: 13px; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 10px; padding-bottom: 8px;
+      border-bottom: 1px solid #e8e0d0; letter-spacing: 1px;
+    }
+    .filter-option {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px; cursor: pointer;
+    }
+    .filter-option input { accent-color: #2d6a6a; }
+    .filter-option label { font-size: 13px; color: #5a5040; cursor: pointer; }
+    .filter-apply {
+      display: block; width: 100%; padding: 10px;
+      background: #2d6a6a; color: #fff; border: none;
+      border-radius: 6px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; margin-top: 12px;
+    }
+    .filter-apply:hover { background: #1e4e4e; }
+
+    .product-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .product-card {
+      border: 1px solid #e8e0d0; border-radius: 10px;
+      overflow: hidden; text-decoration: none; background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column;
+    }
+    .product-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; }
+    .product-card-body { padding: 14px 14px 8px; flex: 1; }
+    .product-card-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+    .product-card-artist { font-size: 12px; color: #8a7a6a; }
+    .product-card-footer {
+      padding: 10px 14px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-card-price { font-size: 16px; font-weight: 700; color: #2d6a6a; }
+    .heart-btn {
+      background: none; border: none; cursor: pointer;
+      color: #c0a080; font-size: 16px; padding: 4px; transition: color 0.2s;
+    }
+    .heart-btn:hover { color: #e05050; }
+    .product-badge {
+      display: inline-block; font-size: 10px; padding: 2px 8px;
+      border-radius: 10px; margin-top: 6px;
+      background: #e8f5f0; color: #2d6a6a;
+    }
+
+    /* Artist story */
+    .story-section {
+      max-width: 1200px; margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+    .story-box {
+      border-radius: 12px; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .story-img { height: 280px; }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; }
+    .story-content {
+      background: #1a3a5c; padding: 40px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .story-content .story-tag {
+      font-size: 11px; color: #7ecbd8; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .story-content h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 22px; font-weight: 700; color: #fff;
+      margin-bottom: 14px; line-height: 1.4;
+    }
+    .story-content p { font-size: 13px; color: #aac8d8; line-height: 1.9; }
+    .story-content a {
+      display: inline-block; margin-top: 20px;
+      color: #7ecbd8; font-size: 13px; text-decoration: none;
+    }
+    .story-content a:hover { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      .listing-layout { grid-template-columns: 1fr; }
+      .filter-sidebar { position: static; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .page-banner { height: 300px; }
+      .page-banner-content h1 { font-size: 30px; }
+      .story-box { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <!-- BANNER -->
+    <section class="page-banner">
+      <img
+        src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560"
+        alt="白族扎染·靛蓝传统"
+      >
+      <div class="page-banner-overlay"></div>
+      <div class="page-banner-content">
+        <span class="banner-badge"><i class="fas fa-certificate"></i> 国家级非遗项目</span>
+        <h1>扎染</h1>
+        <p>发源于云南大理的白族扎染，已有千年历史。<br>靛蓝与棉布之间，藏着大自然最纯粹的语言。</p>
+      </div>
+    </section>
+
+    <!-- NAV TABS -->
+    <nav class="nav-tabs-bar">
+      <div class="nav-tabs-inner">
+        <a href="heritage.html" class="nav-tab">全部非遗</a>
+        <a href="heritage-dyeing.html" class="nav-tab">染织与纤维</a>
+        <a href="heritage-dyeing-tiedye.html" class="nav-tab active">扎染</a>
+      </div>
+    </nav>
+
+    <!-- INTRO STRIP -->
+    <div class="intro-strip">
+      <div class="inner">
+        <div class="intro-item">
+          <span class="intro-icon">🌿</span>
+          <div class="intro-text">
+            <h4>天然植物染料</h4>
+            <p>全程使用靛蓝植物提取</p>
+          </div>
+        </div>
+        <div class="intro-item">
+          <span class="intro-icon">🙌</span>
+          <div class="intro-text">
+            <h4>手工扎染工艺</h4>
+            <p>每件独一无二，无法复制</p>
+          </div>
+        </div>
+        <div class="intro-item">
+          <span class="intro-icon">🔵</span>
+          <div class="intro-text">
+            <h4>千年靛蓝传统</h4>
+            <p>云南大理白族世代传承</p>
+          </div>
+        </div>
+        <div class="intro-item">
+          <span class="intro-icon">📍</span>
+          <div class="intro-text">
+            <h4>产地直供</h4>
+            <p>来自云南手作村落</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTING -->
+    <div class="listing-layout">
+      <aside class="filter-sidebar">
+        <div class="filter-group">
+          <h4>价格区间</h4>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="number" placeholder="最低" style="width:70px;padding:6px 8px;border:1px solid #e0d8c8;border-radius:4px;font-size:12px;">
+            <span>—</span>
+            <input type="number" placeholder="最高" style="width:70px;padding:6px 8px;border:1px solid #e0d8c8;border-radius:4px;font-size:12px;">
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>材质</h4>
+          <label class="filter-option"><input type="checkbox" checked><label>棉麻</label></label>
+          <label class="filter-option"><input type="checkbox"><label>纯棉</label></label>
+          <label class="filter-option"><input type="checkbox"><label>真丝</label></label>
+        </div>
+        <div class="filter-group">
+          <h4>颜色</h4>
+          <label class="filter-option"><input type="checkbox" checked><label>靛蓝</label></label>
+          <label class="filter-option"><input type="checkbox"><label>深蓝</label></label>
+          <label class="filter-option"><input type="checkbox"><label>浅蓝白</label></label>
+        </div>
+        <div class="filter-group">
+          <h4>图案</h4>
+          <label class="filter-option"><input type="checkbox"><label>花卉</label></label>
+          <label class="filter-option"><input type="checkbox"><label>几何</label></label>
+          <label class="filter-option"><input type="checkbox"><label>抽象</label></label>
+          <label class="filter-option"><input type="checkbox"><label>动物</label></label>
+        </div>
+        <div class="filter-group">
+          <h4>是否可购买</h4>
+          <label class="filter-option"><input type="checkbox" checked><label>有库存</label></label>
+          <label class="filter-option"><input type="checkbox"><label>定制</label></label>
+        </div>
+        <button class="filter-apply">应用筛选</button>
+      </aside>
+
+      <div>
+        <div class="product-grid">
+          <a href="product-detail.html?id=tiedye1" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=X5EGQxA71XU%2B3O8LDcSTWEWvFTjR9LJg6wtYcHSD4Y1wqFG8I%2B1w0Hog1XmQSa2K4EzzjX4EeLOGhf8FU4%2FFSrirU76xCkRpz35Bhs%2FAMPCfb42FlFoIPCMLzADdlaofLFdc5BTVV%2Bep5JMAef37lfSl%2Fi%2BnAjalCe7cv6gAAth9bmxnci2GkeTdMWw%2B8JRui2C7zDRGqY6T%2F9Av%2Fbo8NFkCCxa84w%3D%3D&u2=TW3vLhGfj6khVPzG&width=2560"
+              alt="白族靛蓝扎染围巾"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">白族靛蓝扎染围巾</div>
+              <div class="product-card-artist">云染工坊 · 大理</div>
+              <span class="product-badge">天然植物染</span>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥680</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=tiedye2" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=3dOjT6z9nKhCuMsgJ7JNX%2FNK92FPTEYvI5dpzxbiXL9wWdQhHo3apF3wy3cXiPfT0cufrxw46CFTx%2Fa9RKhHg7qfifu6HHc5txGvY0GJpUShQskazzgt8RP2wVfbHE%2Bg3sQQ%2By0RgGR8B87tGV%2B5xg%3D%3D&u2=whyat0vP%2FkEu5otQ&width=2560"
+              alt="扎染桌旗"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">扎染棉麻桌旗</div>
+              <div class="product-card-artist">周城白族染坊 · 大理</div>
+              <span class="product-badge">手工扎制</span>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥420</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=tiedye3" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=ge%2BgkmecTjB9e%2B28LCHOT5XfWhARzrs53%2B%2BkmpAPG0LgPlrLJ9vJ801e01H3LdlsQTAbYSccpGjSPTTcGrMa0WrmbQ%3D%3D&u2=nKYyAdKxYkgbLx4D&width=2560"
+              alt="靛蓝染布料"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">靛蓝扎染纯棉衬衫料</div>
+              <div class="product-card-artist">古法蓝染坊 · 云南</div>
+              <span class="product-badge">独一无二</span>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥560/米</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=tiedye4" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=gvvb%2B9PJUaS3%2BVwBcD%2FVDR4edoYckSAf1kCVhb7xMazt0DXr4EorGB6tBq5TDMX7J5HmrVU0HLfxsV1ajE%2BN2cnL9WlkdnMIUtpy8B8PGUa63yk35xjcmHX1mqJXER%2ByhnId%2Bi19Gt1G5eCmioKJLDmD&u2=5ZyLuCZpGr1TYJNW&width=2560"
+              alt="靛蓝染床品"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">靛蓝扎染枕套组</div>
+              <div class="product-card-artist">云染舍 · 云南</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥780</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=tiedye5" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=MmTfhhAK75Fcrbw5Vh891s8w8QUCGijYgDOkcFuaYLdiQ44oUoGuurdnTaetNYdfpGzDQ0DSGD50N%2BZuU1isJnQshOW%2FDqesc5Af6KePHoquWOTn7kqlJL2yuec%3D&u2=JhKzWLOCEApEFJY1&width=2560"
+              alt="靛蓝染体验套装"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">靛蓝扎染 DIY 体验套装</div>
+              <div class="product-card-artist">染艺工坊 · 大理</div>
+              <span class="product-badge">亲子体验</span>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥298</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+          <a href="product-detail.html?id=tiedye6" class="product-card">
+            <img
+              src="https://sspark.genspark.ai/cfimages?u1=AM0hdCnRylBiiv7ABLJk9ZUoe%2BBPsux776uHsKeGPnKdCxzpnZfmARETuAL4VBtj%2BxPplHp%2F4%2FAEx0EOFgTaoqpTufUv4q6dYF0zWxLnUZDJVIdqa8uM&u2=nXHmpocDPSbGJQ9f&width=2560"
+              alt="传统靛蓝棉布"
+            >
+            <div class="product-card-body">
+              <div class="product-card-title">传统扎染纯棉布一米</div>
+              <div class="product-card-artist">喜洲村 · 大理</div>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">¥188/米</span>
+              <button class="heart-btn" onclick="event.preventDefault()"><i class="far fa-heart"></i></button>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIST STORY -->
+    <section class="story-section">
+      <div class="story-box">
+        <div class="story-img">
+          <img
+            src="https://sspark.genspark.ai/cfimages?u1=prn%2Ft0HaptjzOYbWdlv12EJMcUldZ3SownWU1rI8ZPB3x3SyR03uIxga%2B962pCA4008lwjYw%2BL53BXBKpRL1cKc9x%2FXqoIFmUSmIM6%2FlCdogawE3s%2BRzvWBqpIQ%3D&u2=SvYwcqv2Zz25f1BP&width=2560"
+            alt="扎染匠人故事"
+          >
+        </div>
+        <div class="story-content">
+          <p class="story-tag">匠人故事</p>
+          <h3>三代人的靛蓝记忆</h3>
+          <p>大理周城村，段家染坊已传承三代。祖母说，靛蓝的颜色里藏着天空的颜色。每一块扎染布，从种植靛草到最终晾干，都需要至少二十道工序，历经一个多月。</p>
+          <a href="art-appreciation.html">阅读更多故事 <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+</body>
+</html>
