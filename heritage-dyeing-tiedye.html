@@ -54,21 +54,32 @@
     .nav-tab:hover { color: #2d6a6a; }
     .nav-tab.active { color: #2d6a6a; border-bottom-color: #2d6a6a; font-weight: 600; }
 
-    /* Intro strip */
+    /* Craft knowledge strip */
     .intro-strip {
       background: #f0f7f8; border-bottom: 1px solid #d8eaec;
-      padding: 20px 0;
+      padding: 22px 0;
     }
     .intro-strip .inner {
       max-width: 1200px; margin: 0 auto; padding: 0 24px;
-      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px;
     }
     .intro-item {
-      display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px;
+      background: #ffffff;
+      border: 1px solid #d7e7e7;
+      border-radius: 10px;
+      padding: 12px 12px 10px;
+      min-height: 94px;
     }
-    .intro-icon { font-size: 22px; }
-    .intro-text h4 { font-size: 13px; font-weight: 700; color: #1a1a1a; }
-    .intro-text p { font-size: 12px; color: #5a7070; }
+    .intro-step {
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #2d6a6a;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .intro-text h4 { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+    .intro-text p { font-size: 12px; color: #5a7070; line-height: 1.7; }
 
     /* Listing */
     .listing-layout {
@@ -163,6 +174,7 @@
       .page-banner { height: 300px; }
       .page-banner-content h1 { font-size: 30px; }
       .story-box { grid-template-columns: 1fr; }
+      .intro-strip .inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -192,35 +204,35 @@
       </div>
     </nav>
 
-    <!-- INTRO STRIP -->
+    <!-- CRAFT KNOWLEDGE -->
     <div class="intro-strip">
       <div class="inner">
         <div class="intro-item">
-          <span class="intro-icon">🌿</span>
+          <p class="intro-step">Step 01</p>
           <div class="intro-text">
-            <h4>天然植物染料</h4>
-            <p>全程使用靛蓝植物提取</p>
+            <h4>设计与扎结</h4>
+            <p>先依据纹样构思，在棉布上手工扎结出抗染结构。</p>
           </div>
         </div>
         <div class="intro-item">
-          <span class="intro-icon">🙌</span>
+          <p class="intro-step">Step 02</p>
           <div class="intro-text">
-            <h4>手工扎染工艺</h4>
-            <p>每件独一无二，无法复制</p>
+            <h4>浸染与氧化</h4>
+            <p>反复浸入靛蓝染液，让布料在空气中自然氧化显色。</p>
           </div>
         </div>
         <div class="intro-item">
-          <span class="intro-icon">🔵</span>
+          <p class="intro-step">Step 03</p>
           <div class="intro-text">
-            <h4>千年靛蓝传统</h4>
-            <p>云南大理白族世代传承</p>
+            <h4>拆线与定型</h4>
+            <p>完成显色后拆除扎线，整理图案并进行清洗定型。</p>
           </div>
         </div>
         <div class="intro-item">
-          <span class="intro-icon">📍</span>
+          <p class="intro-step">Step 04</p>
           <div class="intro-text">
-            <h4>产地直供</h4>
-            <p>来自云南手作村落</p>
+            <h4>晾晒与检验</h4>
+            <p>阴干后检查色牢度与纹样层次，形成最终成品。</p>
           </div>
         </div>
       </div>

@@ -93,6 +93,138 @@
     }
     .btn-checkout:hover { background: #1e4e4e; }
     .summary-note { font-size: 11px; color: #8a7a6a; margin-top: 12px; line-height: 1.7; }
+    .giving-summary-note {
+      margin-top: 12px;
+      border: 1px solid #d8ebe6;
+      background: #f2fbf8;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 11px;
+      color: #44655e;
+      line-height: 1.8;
+    }
+
+    /* Checkout flow modal */
+    .checkout-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 9998;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .checkout-overlay.show { display: flex; }
+    .checkout-modal {
+      width: min(560px, 100%);
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #e3ddd1;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    .checkout-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid #eee6d9;
+      background: #faf8f4;
+    }
+    .checkout-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 18px;
+      color: #1a1a1a;
+    }
+    .checkout-close {
+      border: none;
+      background: none;
+      font-size: 20px;
+      color: #8a7a6a;
+      cursor: pointer;
+    }
+    .checkout-body { padding: 18px; }
+    .checkout-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .checkout-step {
+      text-align: center;
+      font-size: 12px;
+      border-radius: 999px;
+      padding: 7px 6px;
+      background: #f3efe7;
+      color: #8a7a6a;
+    }
+    .checkout-step.active {
+      background: #2d6a6a;
+      color: #fff;
+    }
+    .checkout-panel {
+      border: 1px solid #ece4d6;
+      border-radius: 10px;
+      padding: 14px;
+      background: #fffdf9;
+      font-size: 13px;
+      color: #4e4a42;
+      line-height: 1.9;
+      min-height: 120px;
+    }
+    .checkout-panel h4 {
+      font-size: 14px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .checkout-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .checkout-btn {
+      border: 1px solid #d7d1c5;
+      background: #fff;
+      color: #5a5040;
+      border-radius: 6px;
+      padding: 9px 14px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .checkout-btn.primary {
+      border-color: #2d6a6a;
+      background: #2d6a6a;
+      color: #fff;
+    }
+    .charity-popup {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(520px, calc(100vw - 28px));
+      border-radius: 12px;
+      border: 1px solid #d5e7e1;
+      background: #f6fcfa;
+      box-shadow: 0 24px 58px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+      padding: 20px 18px 16px;
+      display: none;
+    }
+    .charity-popup.show { display: block; }
+    .charity-popup h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 18px;
+      color: #1e4e4e;
+      margin-bottom: 10px;
+    }
+    .charity-popup p {
+      font-size: 13px;
+      color: #3e5953;
+      line-height: 1.9;
+      margin-bottom: 12px;
+    }
 
     .empty-cart { text-align: center; padding: 60px 0; }
     .empty-cart .icon { font-size: 60px; margin-bottom: 16px; }
@@ -143,11 +275,40 @@
         <div class="summary-row"><span>运费</span><span>免运费</span></div>
         <div class="summary-row"><span>公益捐赠 (3%)</span><span id="donation">¥0</span></div>
         <div class="summary-row total"><span>合计</span><span id="total">¥0</span></div>
-        <a href="user-center.html" class="btn-checkout">去结算</a>
+        <button class="btn-checkout" id="btn-checkout-flow">去结算</button>
         <p class="summary-note">✓ 顺丰包邮&emsp;✓ 7天无忧退换&emsp;✓ 正品保障</p>
+        <p class="giving-summary-note">感谢你的支持。项目收益将用于云南乡村小学的实际需求，相关进展也将持续更新。</p>
       </aside>
     </div>
   </main>
+
+  <div class="checkout-overlay" id="checkout-overlay">
+    <div class="checkout-modal" role="dialog" aria-modal="true" aria-label="结算流程">
+      <div class="checkout-head">
+        <p class="checkout-title">结算流程（模拟）</p>
+        <button class="checkout-close" id="checkout-close" aria-label="关闭">×</button>
+      </div>
+      <div class="checkout-body">
+        <div class="checkout-steps">
+          <div class="checkout-step active" data-step="1">1. 确认信息</div>
+          <div class="checkout-step" data-step="2">2. 选择支付</div>
+          <div class="checkout-step" data-step="3">3. 完成支付</div>
+        </div>
+        <div class="checkout-panel" id="checkout-panel"></div>
+        <div class="checkout-foot">
+          <button class="checkout-btn" id="checkout-prev">上一步</button>
+          <button class="checkout-btn primary" id="checkout-next">下一步</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charity-popup" id="charity-popup">
+    <h4><i class="fas fa-hand-holding-heart" style="margin-right:8px;"></i>感谢你的支持</h4>
+    <p>项目收益将用于云南乡村小学的实际需求，相关进展也将持续更新。</p>
+    <button class="checkout-btn primary" id="charity-close">我知道了</button>
+  </div>
+
   <div id="site-footer"></div>
   <script src="js/common.js"></script>
   <script>
@@ -210,6 +371,87 @@
     function clearCart() {
       if (confirm('确定要清空购物车吗？')) { cart = []; saveCart(); renderCart(); }
     }
+
+    const checkoutOverlay = document.getElementById('checkout-overlay');
+    const checkoutPanel = document.getElementById('checkout-panel');
+    const checkoutPrev = document.getElementById('checkout-prev');
+    const checkoutNext = document.getElementById('checkout-next');
+    const charityPopup = document.getElementById('charity-popup');
+    let checkoutStep = 1;
+
+    function renderCheckoutStep() {
+      document.querySelectorAll('.checkout-step').forEach(el => {
+        const stepNum = Number(el.dataset.step);
+        el.classList.toggle('active', stepNum <= checkoutStep);
+      });
+      checkoutPrev.style.display = checkoutStep === 1 ? 'none' : 'inline-block';
+
+      if (checkoutStep === 1) {
+        checkoutPanel.innerHTML = `
+          <h4>确认收货与订单信息</h4>
+          <p>收货人：张同学（演示）<br>电话：138****8888<br>地址：杭州市西湖区文三路 88 号</p>
+          <p>订单商品与金额已在右侧摘要同步。确认无误后进入支付方式选择。</p>
+        `;
+        checkoutNext.textContent = '下一步';
+      } else if (checkoutStep === 2) {
+        checkoutPanel.innerHTML = `
+          <h4>选择支付方式</h4>
+          <p>已选择：微信支付（演示）<br>你也可以切换为支付宝 / 银行卡（当前为前端模拟流程）。</p>
+          <p>点击“确认支付”后将模拟支付成功并完成下单。</p>
+        `;
+        checkoutNext.textContent = '确认支付';
+      } else {
+        checkoutPanel.innerHTML = `
+          <h4>支付成功</h4>
+          <p>订单已创建，感谢你的购买。我们会尽快安排发货，你可在“我的账号”中查看订单状态。</p>
+        `;
+        checkoutNext.textContent = '完成';
+      }
+    }
+
+    function openCheckoutFlow() {
+      if (!cart.length) {
+        alert('购物车为空，先添加商品再结算。');
+        return;
+      }
+      checkoutStep = 1;
+      renderCheckoutStep();
+      checkoutOverlay.classList.add('show');
+    }
+
+    function closeCheckoutFlow() {
+      checkoutOverlay.classList.remove('show');
+    }
+
+    document.getElementById('btn-checkout-flow').addEventListener('click', openCheckoutFlow);
+    document.getElementById('checkout-close').addEventListener('click', closeCheckoutFlow);
+    checkoutOverlay.addEventListener('click', (e) => {
+      if (e.target === checkoutOverlay) closeCheckoutFlow();
+    });
+
+    checkoutPrev.addEventListener('click', () => {
+      checkoutStep = Math.max(1, checkoutStep - 1);
+      renderCheckoutStep();
+    });
+
+    checkoutNext.addEventListener('click', () => {
+      if (checkoutStep < 3) {
+        checkoutStep += 1;
+        renderCheckoutStep();
+      } else {
+        closeCheckoutFlow();
+        cart = [];
+        saveCart();
+        renderCart();
+        charityPopup.classList.add('show');
+      }
+    });
+
+    document.getElementById('charity-close').addEventListener('click', () => {
+      charityPopup.classList.remove('show');
+      window.location.href = 'user-center.html';
+    });
+
     renderCart();
   </script>
 </body>

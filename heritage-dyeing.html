@@ -48,6 +48,43 @@
     .nav-tab:hover { color: #2d6a6a; }
     .nav-tab.active { color: #2d6a6a; border-bottom-color: #2d6a6a; font-weight: 600; }
 
+    .subcat-bar {
+      background: #fff;
+      border-bottom: 1px solid #e8e0d0;
+      padding: 12px 0;
+    }
+    .subcat-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .subcat-chip {
+      border: 1px solid #d9e4e1;
+      border-radius: 8px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: #4b5d59;
+      text-decoration: none;
+      background: #fff;
+      transition: all 0.22s ease;
+    }
+    .subcat-chip:hover,
+    .subcat-chip.active {
+      border-color: rgba(45,106,106,0.56);
+      background: #f4f9f8;
+      color: #2d6a6a;
+      box-shadow: 0 8px 18px rgba(45,106,106,0.12);
+      transform: translateY(-1px);
+    }
+
     /* Two-column layout */
     .listing-layout {
       max-width: 1200px; margin: 0 auto; padding: 36px 24px 60px;
@@ -108,24 +145,13 @@
     }
     .heart-btn:hover { color: #e05050; }
 
-    .sub-chips {
-      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
-    }
-    .sub-chip {
-      padding: 6px 16px; border-radius: 20px; font-size: 13px;
-      border: 1px solid #e0d8c8; color: #5a5040; text-decoration: none;
-      transition: all 0.2s; background: #fff;
-    }
-    .sub-chip:hover, .sub-chip.active {
-      background: #2d6a6a; color: #fff; border-color: #2d6a6a;
-    }
-
     @media (max-width: 900px) {
       .listing-layout { grid-template-columns: 1fr; }
       .filter-sidebar { position: static; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .page-banner { height: 300px; }
       .page-banner-content h1 { font-size: 28px; }
+      .subcat-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -151,10 +177,20 @@
         <a href="heritage.html" class="nav-tab">全部非遗</a>
         <a href="heritage-dyeing.html" class="nav-tab active">染织与纤维</a>
         <a href="heritage.html#metalwork" class="nav-tab">金工与镶嵌</a>
-        <a href="heritage.html#papercut" class="nav-tab">剪纸与纸艺</a>
-        <a href="heritage.html#lacquer" class="nav-tab">漆器与木作</a>
+        <a href="heritage.html#papercut" class="nav-tab">纸艺与民间工艺</a>
+        <a href="heritage.html#lacquer" class="nav-tab">漆艺与竹木</a>
       </div>
     </nav>
+
+    <div class="subcat-bar">
+      <div class="subcat-inner">
+        <a href="heritage-dyeing.html" class="subcat-chip active">植物拓染</a>
+        <a href="heritage-dyeing-tiedye.html" class="subcat-chip">扎染</a>
+        <a href="heritage-dyeing.html" class="subcat-chip">蓝印花布 / 蓝晒</a>
+        <a href="heritage-dyeing.html" class="subcat-chip">宋锦</a>
+        <a href="heritage-dyeing.html" class="subcat-chip">香线</a>
+      </div>
+    </div>
 
     <!-- LISTING LAYOUT -->
     <div class="listing-layout">
@@ -186,10 +222,11 @@
         </div>
         <div class="filter-group">
           <h4>工艺</h4>
+          <label class="filter-option"><input type="checkbox"> <label>植物拓染</label></label>
           <label class="filter-option"><input type="checkbox"> <label>扎染</label></label>
-          <label class="filter-option"><input type="checkbox"> <label>蜡染</label></label>
-          <label class="filter-option"><input type="checkbox"> <label>织造</label></label>
-          <label class="filter-option"><input type="checkbox"> <label>刺绣</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>蓝印花布 / 蓝晒</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>宋锦</label></label>
+          <label class="filter-option"><input type="checkbox"> <label>香线</label></label>
         </div>
         <div class="filter-group">
           <h4>是否可购买</h4>
@@ -202,13 +239,6 @@
 
       <!-- PRODUCT AREA -->
       <div>
-        <div class="sub-chips">
-          <a href="heritage-dyeing-tiedye.html" class="sub-chip active">扎染</a>
-          <a href="heritage-dyeing.html" class="sub-chip">蜡染</a>
-          <a href="heritage-dyeing.html" class="sub-chip">织造</a>
-          <a href="heritage-dyeing.html" class="sub-chip">刺绣</a>
-          <a href="heritage-dyeing.html" class="sub-chip">草木染</a>
-        </div>
         <div class="product-grid">
           <a href="product-detail.html?id=dy1" class="product-card">
             <img

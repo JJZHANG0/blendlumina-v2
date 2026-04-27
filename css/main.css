@@ -231,7 +231,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   margin: 0 auto;
   padding: 0 var(--page-gutter);
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
   height: 52px;
   gap: 10px;

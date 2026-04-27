@@ -39,9 +39,9 @@
 
     /* Unified category option bar */
     .category-option-bar {
-      background: #111;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: #fff;
+      border-top: 1px solid #ece6db;
+      border-bottom: 1px solid #ece6db;
       padding: 14px 0;
     }
     .category-option-inner {
@@ -53,9 +53,9 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       min-height: 64px;
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.14);
+      border: 1px solid #d9e4e1;
       border-radius: 8px;
-      background: rgba(255,255,255,0.02);
+      background: #fff;
       transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
     }
     .category-option::after {
@@ -65,7 +65,7 @@
       right: 18%;
       bottom: 0;
       height: 2px;
-      background: #ff6040;
+      background: #2d6a6a;
       transform: scaleX(0);
       transform-origin: center;
       transition: transform 0.24s ease;
@@ -73,22 +73,22 @@
     .category-option:hover,
     .category-option.active {
       transform: translateY(-2px);
-      border-color: rgba(255,96,64,0.58);
-      background: rgba(255,96,64,0.09);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      border-color: rgba(45,106,106,0.54);
+      background: #f4f9f8;
+      box-shadow: 0 8px 20px rgba(45,106,106,0.14);
     }
     .category-option:hover::after,
     .category-option.active::after { transform: scaleX(1); }
     .category-option .option-title {
-      font-size: 13px; color: #e4e4e4; letter-spacing: 0.8px;
+      font-size: 13px; color: #46524f; letter-spacing: 0.8px;
     }
     .category-option .option-sub {
-      font-size: 10px; color: #8f8f8f; margin-top: 2px; letter-spacing: 1.4px;
+      font-size: 10px; color: #8fa4a0; margin-top: 2px; letter-spacing: 1.4px;
       text-transform: uppercase;
     }
-    .category-option.active .option-title { color: #ff8f78; font-weight: 600; }
+    .category-option.active .option-title { color: #2d6a6a; font-weight: 600; }
 
-    .main-section { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
+    .main-section { max-width: 1200px; margin: 0 auto; padding: 48px 24px; background: var(--beige); }
     .section-header {
       display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
     }

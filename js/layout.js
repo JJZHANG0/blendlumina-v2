@@ -45,10 +45,9 @@ const HEADER_HTML = `
 <nav class="main-nav">
   <div class="nav-inner">
     <a href="index.html">首页</a>
+    <a href="heritage.html">传统与非遗</a>
     <a href="youth.html">青年创作</a>
     <a href="folk.html">民间手作</a>
-    <a href="street.html">街头表达</a>
-    <a href="heritage.html">传统与非遗</a>
     <a href="art-appreciation.html">艺术鉴赏</a>
     <a href="about.html">关于我们</a>
   </div>
