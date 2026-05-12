@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>艺术家列表 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .artists-banner {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+      background: #1a2a2a;
+    }
+    .artists-banner img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+    .artists-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(15, 30, 30, 0.88) 35%, rgba(15, 30, 30, 0.45) 70%, transparent 100%);
+    }
+    .artists-banner-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 var(--page-gutter);
+      z-index: 3;
+    }
+    .artists-banner-content .tag {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #7ecbd8;
+      margin-bottom: 10px;
+    }
+    .artists-banner-content h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+    .artists-banner-content p {
+      font-size: 14px;
+      color: #c0d8d8;
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    .artists-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px var(--page-gutter) 60px;
+    }
+    .artists-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .artists-search-wrap {
+      flex: 1;
+      min-width: 240px;
+      max-width: 420px;
+      position: relative;
+    }
+    .artists-search-wrap i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8a7a6a;
+      font-size: 14px;
+    }
+    .artists-search {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      border: 1px solid #e0d8c8;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #1a1a1a;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .artists-search:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(31, 106, 107, 0.12);
+    }
+    .artists-count {
+      font-size: 13px;
+      color: #8a7a6a;
+    }
+    .artists-count strong { color: #1f6a6b; font-weight: 600; }
+
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .artist-card {
+      border: 1px solid #e8e0d0;
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .artist-card:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    .artist-card.hidden { display: none; }
+    .artist-card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .artist-card-body { padding: 14px 14px 8px; flex: 1; }
+    .artist-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .artist-card-meta { font-size: 12px; color: #8a7a6a; line-height: 1.5; }
+    .artist-card-footer {
+      padding: 10px 14px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .artist-card-works {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f6a6b;
+    }
+    .artists-empty {
+      display: none;
+      text-align: center;
+      padding: 48px 20px;
+      color: #8a7a6a;
+      font-size: 14px;
+      border: 1px dashed #e0d8c8;
+      border-radius: 10px;
+      background: #faf8f4;
+    }
+    .artists-empty.show { display: block; }
+
+    @media (max-width: 900px) {
+      .artists-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .artists-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="artists-banner">
+      <img
+        src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2400&auto=format&fit=crop"
+        alt="艺术家与创作空间"
+      >
+      <div class="artists-banner-overlay"></div>
+      <div class="artists-banner-content">
+        <p class="tag">Artists · 艺术家</p>
+        <h1>艺术家列表</h1>
+        <p>浏览平台入驻与展示的创作者，可按姓名快速检索。</p>
+      </div>
+    </section>
+
+    <div class="artists-main">
+      <div class="artists-toolbar">
+        <div class="artists-search-wrap">
+          <i class="fas fa-search"></i>
+          <input type="search" class="artists-search" id="artist-search" placeholder="搜索艺术家姓名…" autocomplete="off" aria-label="搜索艺术家">
+        </div>
+        <p class="artists-count" id="artist-count">共 <strong id="artist-count-num">0</strong> 位</p>
+      </div>
+
+      <p class="artists-empty" id="artists-empty">未找到匹配的艺术家，请尝试其他关键词。</p>
+
+      <div class="artists-grid" id="artists-grid">
+        <!-- 卡片由脚本根据数据渲染，便于维护与搜索 -->
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+  <script>
+    const ARTISTS = [
+      { name: '林一凡', meta: '青年创作 · 综合材料', works: 18, img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?artist=linyifan' },
+      { name: '草木器社', meta: '民间手作 · 漆器工艺', works: 24, img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop', href: 'folk.html' },
+      { name: '云染工坊', meta: '传统与非遗 · 扎染', works: 31, img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop', href: 'heritage-dyeing.html' },
+      { name: '苏绣镶人', meta: '传统与非遗 · 刺绣', works: 16, img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+      { name: '桂竹手艺', meta: '民间手作 · 竹编', works: 20, img: 'https://images.unsplash.com/photo-1542327897-d73f4005b533?q=80&w=1200&auto=format&fit=crop', href: 'folk.html' },
+      { name: 'Street Echo', meta: '街头表达 · 涂鸦', works: 22, img: 'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?q=80&w=1200&auto=format&fit=crop', href: 'street.html' },
+      { name: '景德镇窑', meta: '传统与非遗 · 瓷器', works: 28, img: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+      { name: '墨山画院', meta: '青年创作 · 国画', works: 14, img: 'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1200&auto=format&fit=crop', href: 'art-appreciation.html' },
+      { name: '张悦', meta: '青年创作 · 油画', works: 12, img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?artist=zhangyue' },
+      { name: '陈晓', meta: '青年创作 · 抽象油画', works: 9, img: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+      { name: '王磊', meta: '青年创作 · 数字版画', works: 15, img: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+      { name: '李梦琦', meta: '青年创作 · 综合媒介', works: 11, img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+      { name: '段梅', meta: '传统与非遗 · 扎染', works: 26, img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=tiedye1' },
+      { name: 'Sheep Chen', meta: '街头表达 · 壁画', works: 19, img: 'https://images.unsplash.com/photo-1525904093524-ffd2fe5cf952?q=80&w=1200&auto=format&fit=crop', href: 'street.html' },
+      { name: '福州漆艺坊', meta: '传统与非遗 · 漆艺', works: 17, img: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+      { name: '湘绣大师', meta: '传统与非遗 · 湘绣', works: 21, img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' }
+    ];
+
+    function normalize(s) {
+      return (s || '').toLowerCase().replace(/\s+/g, '');
+    }
+
+    function renderArtists(list) {
+      const grid = document.getElementById('artists-grid');
+      const empty = document.getElementById('artists-empty');
+      const numEl = document.getElementById('artist-count-num');
+      grid.innerHTML = list.map(a => `
+        <a class="artist-card" href="${a.href}">
+          <img class="artist-card-img" src="${a.img}" alt="${a.name}">
+          <div class="artist-card-body">
+            <div class="artist-card-name">${a.name}</div>
+            <div class="artist-card-meta">${a.meta}</div>
+          </div>
+          <div class="artist-card-footer">
+            <span class="artist-card-works">代表作 ${a.works} 件</span>
+            <i class="fas fa-arrow-right" style="color:#c0a080;font-size:12px;"></i>
+          </div>
+        </a>
+      `).join('');
+      numEl.textContent = String(list.length);
+      empty.classList.toggle('show', list.length === 0);
+    }
+
+    function filterArtists(q) {
+      const n = normalize(q);
+      if (!n) return ARTISTS.slice();
+      return ARTISTS.filter(a => normalize(a.name).includes(n) || normalize(a.meta).includes(n));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderArtists(ARTISTS);
+      const input = document.getElementById('artist-search');
+      input.addEventListener('input', () => {
+        renderArtists(filterArtists(input.value));
+      });
+    });
+  </script>
+</body>
+</html>
