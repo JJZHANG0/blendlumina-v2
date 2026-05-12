@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>艺术家 - Blend Lumina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/layout.js"></script>
+  <style>
+    .ap-hero {
+      position: relative;
+      min-height: 320px;
+      background: #1a2a28;
+    }
+    .ap-hero-cover {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .ap-hero-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      opacity: 0.55;
+    }
+    .ap-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(26,42,40,0.2) 0%, rgba(26,42,40,0.92) 100%);
+    }
+    .ap-hero-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px var(--page-gutter) 56px;
+      z-index: 2;
+    }
+    .ap-breadcrumb {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 20px;
+    }
+    .ap-breadcrumb a { color: #9dd4cf; text-decoration: none; }
+    .ap-breadcrumb a:hover { text-decoration: underline; }
+    .ap-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 24px;
+    }
+    .ap-avatar-wrap {
+      flex-shrink: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.35);
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .ap-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .ap-head-text { flex: 1; min-width: 200px; }
+    .ap-head-text h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 34px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .ap-role {
+      font-size: 14px;
+      color: #b8dfd8;
+      margin-bottom: 6px;
+    }
+    .ap-loc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 1px;
+    }
+    .ap-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .ap-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .ap-btn-primary {
+      background: #fff;
+      color: #1f6a6b;
+      border: 1px solid #fff;
+    }
+    .ap-btn-primary:hover { background: #eef8f6; }
+    .ap-btn-ghost {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+    .ap-btn-ghost:hover { background: rgba(255,255,255,0.18); }
+
+    .ap-body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px var(--page-gutter) 64px;
+    }
+    .ap-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 40px;
+      align-items: start;
+    }
+    .ap-section {
+      margin-bottom: 40px;
+    }
+    .ap-section h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #1f6a6b;
+      display: inline-block;
+    }
+    .ap-bio p {
+      font-size: 14px;
+      color: #4a504e;
+      line-height: 2;
+      margin-bottom: 14px;
+    }
+    .ap-skills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .ap-skill {
+      background: linear-gradient(145deg, #f6fbfa, #eef5f3);
+      border: 1px solid #d8e8e4;
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .ap-skill h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f6a6b;
+      margin-bottom: 8px;
+    }
+    .ap-skill p { font-size: 13px; color: #5a6562; line-height: 1.75; }
+
+    .ap-works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .ap-work {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e8e0d0;
+      text-decoration: none;
+      background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .ap-work:hover {
+      box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+      transform: translateY(-3px);
+    }
+    .ap-work img { width: 100%; height: 160px; object-fit: cover; }
+    .ap-work-body { padding: 12px 14px 14px; flex: 1; }
+    .ap-work-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+    .ap-work-price { font-size: 15px; font-weight: 700; color: #1f6a6b; }
+
+    .ap-side {
+      position: sticky;
+      top: 88px;
+      background: #faf8f4;
+      border: 1px solid #ece6da;
+      border-radius: 12px;
+      padding: 22px;
+    }
+    .ap-side h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: #1a1a1a;
+      margin-bottom: 14px;
+    }
+    .ap-stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 1px solid #e8e0d0;
+      color: #5a5040;
+    }
+    .ap-stat span:last-child { font-weight: 700; color: #1f6a6b; }
+
+    .ap-notfound {
+      text-align: center;
+      padding: 80px 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .ap-notfound h1 { font-size: 22px; margin-bottom: 12px; color: #1a1a1a; }
+    .ap-notfound p { color: #8a7a6a; margin-bottom: 24px; line-height: 1.8; }
+
+    @media (max-width: 900px) {
+      .ap-grid { grid-template-columns: 1fr; }
+      .ap-side { position: static; }
+      .ap-skills { grid-template-columns: 1fr; }
+      .ap-works-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .ap-works-grid { grid-template-columns: 1fr; }
+      .ap-head-text h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="ap-main">
+    <div class="ap-notfound" id="ap-notfound" style="display:none;">
+      <h1>未找到该艺术家</h1>
+      <p>链接可能不正确，或该创作者尚未上架。请返回艺术家列表浏览全部入驻创作者。</p>
+      <a href="artists.html" class="ap-btn ap-btn-primary" style="display:inline-flex;"><i class="fas fa-arrow-left"></i> 返回艺术家列表</a>
+    </div>
+
+    <div id="ap-content" style="display:none;">
+      <section class="ap-hero">
+        <div class="ap-hero-cover"><img id="ap-cover" src="" alt=""></div>
+        <div class="ap-hero-overlay"></div>
+        <div class="ap-hero-inner">
+          <p class="ap-breadcrumb"><a href="index.html">首页</a> <span>/</span> <a href="artists.html">艺术家</a> <span>/</span> <span id="ap-crumb-name"></span></p>
+          <div class="ap-head">
+            <div class="ap-avatar-wrap"><img id="ap-avatar" src="" alt=""></div>
+            <div class="ap-head-text">
+              <h1 id="ap-name"></h1>
+              <p class="ap-role" id="ap-role"></p>
+              <p class="ap-loc" id="ap-loc"></p>
+            </div>
+            <div class="ap-actions">
+              <a href="shop.html" class="ap-btn ap-btn-primary" id="ap-shop"><i class="fas fa-store"></i> 查看作品</a>
+              <a href="artists.html" class="ap-btn ap-btn-ghost"><i class="fas fa-users"></i> 更多艺术家</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ap-body">
+        <div class="ap-grid">
+          <div>
+            <section class="ap-section">
+              <h2>关于</h2>
+              <div class="ap-bio" id="ap-bio"></div>
+            </section>
+            <section class="ap-section">
+              <h2>技艺与方向</h2>
+              <div class="ap-skills" id="ap-skills"></div>
+            </section>
+            <section class="ap-section">
+              <h2>代表作品</h2>
+              <div class="ap-works-grid" id="ap-works"></div>
+            </section>
+          </div>
+          <aside class="ap-side">
+            <h3>档案</h3>
+            <div class="ap-stat"><span>上架作品</span><span id="ap-st-works"></span></div>
+            <div class="ap-stat"><span>创作领域</span><span id="ap-st-field"></span></div>
+            <div class="ap-stat"><span>所在地区</span><span id="ap-st-loc"></span></div>
+            <p style="font-size:12px;color:#8a7a6a;margin-top:16px;line-height:1.7;">以上信息为展示用途，正式合作与购买请以作品页与平台规则为准。</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/common.js"></script>
+  <script>
+    const ARTIST_DB = {
+      linyifan: {
+        name: '林一凡', role: '青年创作 · 综合材料', loc: '中国 · 上海',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2400&auto=format&fit=crop',
+        bio: ['林一凡毕业于中央美术学院，长期以综合材料探讨自然与人文的边界。作品曾在上海、北京多家画廊展出，擅长将水墨气质与当代装置语言结合，形成可被触摸的“山水记忆”。', '在 Blend Lumina，他持续以实验性材料记录城市边缘与自然之间的张力，希望观众在作品前停留时，能同时听见材料与时间的声音。'],
+        skills: [
+          { title: '综合材料', desc: '纸本、矿物颜料、织物与现成物拼贴，强调层次与肌理的可读性。' },
+          { title: '空间叙事', desc: '以序列化小幅作品构成观看路径，引导观众在移动中完成阅读。' }
+        ],
+        works: [
+          { title: '山岚·意境', price: '¥4,800', img: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=y1' },
+          { title: '无题·肖像', price: '¥6,200', img: 'https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=y2' },
+          { title: '精选原作版画', price: '¥2,400', img: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop', href: 'shop.html?cat=youth' }
+        ],
+        worksCount: 18
+      },
+      caomuqi: {
+        name: '草木器社', role: '民间手作 · 漆器工艺', loc: '中国 · 福建',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=2400&auto=format&fit=crop',
+        bio: ['草木器社由几位年轻漆艺作者共同运营，专注日用漆器与茶器。坚持天然大漆与手工揩清，让漆的光泽在日复一日的使用里慢慢养出来。', '团队相信“器物即生活”，每一件出品都经过反复打磨与食品安全级涂层处理，适合日常茶席与礼赠。'],
+        skills: [
+          { title: '大漆揩清', desc: '多道薄涂与打磨，形成温润内敛的表面，兼顾耐用与触感。' },
+          { title: '木胎塑形', desc: '选用稳定木材开胎，控制收缩率，减少开裂与变形风险。' }
+        ],
+        works: [
+          { title: '竹编·四季提篮', price: '¥480', img: 'https://images.unsplash.com/photo-1542327897-d73f4005b533?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=f1' },
+          { title: '手拉坯·青釉茶碗', price: '¥360', img: 'https://images.unsplash.com/photo-1578749556568-b2f1e498f93a?q=80&w=1200&auto=format&fit=crop', href: 'folk.html' },
+          { title: '民间手作精选', price: '¥620', img: 'https://images.unsplash.com/photo-1610701596007-115028a7f55f?q=80&w=1200&auto=format&fit=crop', href: 'shop.html?cat=folk' }
+        ],
+        worksCount: 24
+      },
+      yunran: {
+        name: '云染工坊', role: '传统与非遗 · 扎染', loc: '中国 · 云南大理',
+        avatar: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=2400&auto=format&fit=crop',
+        bio: ['云染工坊扎根大理周城一带，以白族传统扎染为核心，使用本地靛蓝植物反复浸染，坚持手工扎结与阴干定型。', '每一件纹样都不可完全复制，既是工艺限制，也是扎染最动人的地方——同一块布，每一次展开都是新的相遇。'],
+        skills: [
+          { title: '植物靛蓝', desc: '从种植到打靛，全程可追溯，避免化学染剂对织物与皮肤的刺激。' },
+          { title: '扎结纹样', desc: '传统吉祥纹样与当代几何语言结合，可定制围巾、桌旗与家居软装。' }
+        ],
+        works: [
+          { title: '白族靛蓝扎染围巾', price: '¥680', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=tiedye1' },
+          { title: '扎染棉麻桌旗', price: '¥420', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop', href: 'heritage-dyeing-tiedye.html' },
+          { title: '染织与纤维', price: '浏览分类', img: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop', href: 'heritage-dyeing.html' }
+        ],
+        worksCount: 31
+      },
+      suxiu: {
+        name: '苏绣镶人', role: '传统与非遗 · 刺绣', loc: '中国 · 江苏苏州',
+        avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=2400&auto=format&fit=crop',
+        bio: ['苏绣镶人工作室传承苏绣细平针与乱针结合技法，擅长花鸟与文人题材。丝线分层叠绣，追求远观有势、近看有质。', '与 Blend Lumina 合作推出限量围巾与团扇系列，每件附创作说明与保养建议。'],
+        skills: [
+          { title: '细平针', desc: '针脚细密匀齐，适合表现翎羽与花瓣的柔顺走向。' },
+          { title: '乱针层次', desc: '以色彩层叠塑造体积与光感，增强当代题材的叙事力。' }
+        ],
+        works: [
+          { title: '苏绣·荷塘月色团扇', price: '¥3,800', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=h3' },
+          { title: '传统苏绣团扇', price: '¥2,400', img: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+          { title: '非遗精选', price: '进入商城', img: 'https://images.unsplash.com/photo-1513475382583-d06e58bcb0e0?q=80&w=1200&auto=format&fit=crop', href: 'shop.html?cat=heritage' }
+        ],
+        worksCount: 16
+      },
+      guizhu: {
+        name: '桂竹手艺', role: '民间手作 · 竹编', loc: '中国 · 广西',
+        avatar: 'https://images.unsplash.com/photo-1542327897-d73f4005b533?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1542327897-d73f4005b533?q=80&w=2400&auto=format&fit=crop',
+        bio: ['桂竹手艺来自桂北山村，擅长日用竹编与礼篮。选竹、劈篾、编织、收口，每一步都依赖手感与经验。', '作品强调结构稳固与握持舒适，既可作收纳，也适合作为节庆与乔迁礼篮。'],
+        skills: [
+          { title: '劈篾匀整', desc: '控制篾条宽窄与厚度，保证编织面张力一致、经久耐用。' },
+          { title: '收口加固', desc: '关键受力点二次加固，兼顾美观与承重。' }
+        ],
+        works: [
+          { title: '竹编·四季提篮', price: '¥480', img: 'https://images.unsplash.com/photo-1610701596007-115028a7f55f?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=f1' },
+          { title: '民间手作', price: '¥620', img: 'https://images.unsplash.com/photo-1542327897-d73f4005b533?q=80&w=1200&auto=format&fit=crop', href: 'folk.html' },
+          { title: '藤编礼篮', price: '¥880', img: 'https://images.unsplash.com/photo-1605218427360-363f3b6c314f?q=80&w=1200&auto=format&fit=crop', href: 'shop.html?cat=folk' }
+        ],
+        worksCount: 20
+      },
+      streetecho: {
+        name: 'Street Echo', role: '街头表达 · 涂鸦', loc: '中国 · 上海',
+        avatar: 'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.pexels.com/photos/162379/lost-places-pforphoto-leave-factory-162379.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        bio: ['Street Echo 关注城市墙面与公共空间中的图像政治，以喷漆、丝网版画与摄影记录并二次创作。', '作品常从弄堂、厂房与高架桥下汲取灵感，试图在快速更新的城市景观里留下短暂却真诚的视觉回声。'],
+        skills: [
+          { title: '壁画与版画', desc: '大画幅墙面创作经验，同时发行限量丝网版画。' },
+          { title: '街头摄影', desc: '记录城市肌理与光影，与涂鸦系列形成互文。' }
+        ],
+        works: [
+          { title: '无处不在的希望', price: '¥2,600', img: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=s1' },
+          { title: '自由之姿·限量版画', price: '¥1,200', img: 'https://images.pexels.com/photos/162379/lost-places-pforphoto-leave-factory-162379.jpeg?auto=compress&cs=tinysrgb&w=1200', href: 'street.html' },
+          { title: '霓虹城市·摄影组', price: '¥2,200', img: 'https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=1200', href: 'street.html' }
+        ],
+        worksCount: 22
+      },
+      jingdezhen: {
+        name: '景德镇窑', role: '传统与非遗 · 瓷器', loc: '中国 · 江西景德镇',
+        avatar: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2400&auto=format&fit=crop',
+        bio: ['景德镇窑工作室专注青花与现代釉色实验，在经典纹样与当代表达之间寻找平衡。', '从拉坯到烧成严格把控窑温曲线，力求胎釉结合紧密、发色稳定。'],
+        skills: [
+          { title: '青花分水', desc: '传统分水技法表现浓淡层次，适合山水与花卉题材。' },
+          { title: '高温烧成', desc: '还原焰控制与冷却节奏，减少惊釉与变形。' }
+        ],
+        works: [
+          { title: '青花·云鹤瓶', price: '¥3,200', img: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=7' },
+          { title: '传统与非遗', price: '浏览作品', img: 'https://images.unsplash.com/photo-1610701596007-115028a7f55f?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+          { title: '作品选购', price: '更多', img: 'https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?q=80&w=1200&auto=format&fit=crop', href: 'shop.html' }
+        ],
+        worksCount: 28
+      },
+      moshan: {
+        name: '墨山画院', role: '青年创作 · 国画', loc: '中国 · 杭州',
+        avatar: 'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2400&auto=format&fit=crop',
+        bio: ['墨山画院由青年国画家群体组成，以山水与水墨当代化为方向，尝试在纸本上重构“可游可居”的空间。', '展览与出版并重，定期发布创作手记，帮助收藏者理解笔墨背后的观念。'],
+        skills: [
+          { title: '水墨造境', desc: '泼墨、积墨与留白并用，强化空气感与远近层次。' },
+          { title: '册页与长卷', desc: '擅长系列化创作，适合藏家按主题收藏。' }
+        ],
+        works: [
+          { title: '云山无尽处', price: '¥6,800', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=8' },
+          { title: '艺术鉴赏', price: '阅读', img: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop', href: 'art-appreciation.html' },
+          { title: '青年创作', price: '更多', img: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' }
+        ],
+        worksCount: 14
+      },
+      zhangyue: {
+        name: '张悦', role: '青年创作 · 油画', loc: '中国 · 北京',
+        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?q=80&w=2400&auto=format&fit=crop',
+        bio: ['张悦以写实油画记录城市青年的日常情绪，画面克制而内省。', '她相信肖像不仅是形似，更是对一段时间心理状态的可视化存档。'],
+        skills: [
+          { title: '写实油画', desc: '多层罩染与直接画法结合，追求皮肤与织物的真实触感。' },
+          { title: '城市叙事', desc: '以室内、通勤与夜光为母题，构建可共鸣的场景。' }
+        ],
+        works: [
+          { title: '无题·肖像', price: '¥6,200', img: 'https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=y2' },
+          { title: '青年创作', price: '浏览', img: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+          { title: '作品选购', price: '¥起', img: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop', href: 'shop.html?cat=youth' }
+        ],
+        worksCount: 12
+      },
+      chenxiao: {
+        name: '陈晓', role: '青年创作 · 抽象油画', loc: '中国 · 广州',
+        avatar: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=2400&auto=format&fit=crop',
+        bio: ['陈晓在抽象与几何之间工作，用高饱和色块与硬边线条制造视觉节奏，回应信息过载时代的感官体验。'],
+        skills: [
+          { title: '抽象构成', desc: '强调色域对比与边缘锐度，控制画面呼吸感。' },
+          { title: '布面丙烯', desc: '快速叠加与打磨，形成独特的表面颗粒感。' }
+        ],
+        works: [
+          { title: '自由·抽象 No.7', price: '¥3,600', img: 'https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=y3' },
+          { title: '青年创作', price: '更多', img: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+          { title: '商城', price: '选购', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop', href: 'shop.html' }
+        ],
+        worksCount: 9
+      },
+      wanglei: {
+        name: '王磊', role: '青年创作 · 数字版画', loc: '中国 · 上海',
+        avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=2400&auto=format&fit=crop',
+        bio: ['王磊以数字工具绘制城市夜景与霓虹反射，再以收藏级纸张输出限量版画。', '画面冷色调居多，意在呈现都市孤独与温柔并存的瞬间。'],
+        skills: [
+          { title: '数字绘画', desc: '高精度分层文件，便于分色印刷与尺寸适配。' },
+          { title: '限量输出', desc: '标注版次与签名，附作品证书。' }
+        ],
+        works: [
+          { title: '城市·夜语', price: '¥1,200', img: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=y4' },
+          { title: '青年创作', price: '浏览', img: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+          { title: '选购', price: '¥起', img: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop', href: 'shop.html' }
+        ],
+        worksCount: 15
+      },
+      limengqi: {
+        name: '李梦琦', role: '青年创作 · 综合媒介', loc: '中国 · 成都',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?q=80&w=2400&auto=format&fit=crop',
+        bio: ['李梦琦将织物、植物标本与绘画并置，探讨记忆与身体经验。材料常来自旅途中的偶然收集。'],
+        skills: [
+          { title: '综合媒介', desc: '拼贴、缝纫与绘画在同一平面协商叙事。' },
+          { title: '展览呈现', desc: '注重展陈与灯光，强化材料的触感联想。' }
+        ],
+        works: [
+          { title: '生长·记忆', price: '¥8,000', img: 'https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=y5' },
+          { title: '青年创作', price: '更多', img: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop', href: 'youth.html' },
+          { title: '作品', price: '选购', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop', href: 'shop.html' }
+        ],
+        worksCount: 11
+      },
+      duanmei: {
+        name: '段梅', role: '传统与非遗 · 扎染', loc: '中国 · 云南大理',
+        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=2400&auto=format&fit=crop',
+        bio: ['段梅从事扎染二十余年，作品以靛蓝为主调，纹样多取自白族吉祥图案与自然观察。', '她坚持小批量手工制作，拒绝工业化复制，让每一块布保留手作温度。'],
+        skills: [
+          { title: '扎结纹样', desc: '传统喜鹊、花卉与几何变体，可定制尺寸。' },
+          { title: '植物染养护', desc: '提供洗涤与避光收纳建议，延长色牢度。' }
+        ],
+        works: [
+          { title: '白族靛蓝扎染围巾', price: '¥680', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=tiedye1' },
+          { title: '扎染专题', price: '了解', img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop', href: 'heritage-dyeing-tiedye.html' },
+          { title: '文章', price: '阅读', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop', href: 'article-indigo-philosophy.html' }
+        ],
+        worksCount: 26
+      },
+      sheepchen: {
+        name: 'Sheep Chen', role: '街头表达 · 壁画', loc: '中国 · 澳门 / 大湾区',
+        avatar: 'https://images.unsplash.com/photo-1525904093524-ffd2fe5cf952?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=2400&auto=format&fit=crop',
+        bio: ['Sheep Chen 的壁画常出现在社区与旧工业区更新项目中，用柔和角色与明亮色块软化城市冷感。', '同时发行限量版画，将墙面语言转化为可进入私人空间的尺度。'],
+        skills: [
+          { title: '大画幅壁画', desc: '高空作业与材料耐候方案成熟。' },
+          { title: '丝网版画', desc: '分版控制叠色，保持墙面稿的视觉力度。' }
+        ],
+        works: [
+          { title: '无处不在的希望', price: '¥2,600', img: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=s1' },
+          { title: '街头表达', price: '浏览', img: 'https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=1200', href: 'street.html' },
+          { title: '文章', price: '阅读', img: 'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?q=80&w=1200&auto=format&fit=crop', href: 'article-street-art-shift.html' }
+        ],
+        worksCount: 19
+      },
+      fuzhouqi: {
+        name: '福州漆艺坊', role: '传统与非遗 · 漆艺', loc: '中国 · 福建福州',
+        avatar: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1610701596007-115028a7f55f?q=80&w=2400&auto=format&fit=crop',
+        bio: ['福州漆艺坊传承当地脱胎漆器与大漆莳绘技艺，作品涵盖茶器、文房与陈设。', '强调“漆随人温”，鼓励收藏者在日常使用里养出包浆。'],
+        skills: [
+          { title: '脱胎漆器', desc: '轻质胎体与大漆结合，造型飘逸。' },
+          { title: '莳绘与描金', desc: '精细装饰层次，适合礼赠与收藏级器物。' }
+        ],
+        works: [
+          { title: '朱漆描金碗', price: '¥2,200', img: 'https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=h2' },
+          { title: '漆艺与竹木', price: '分类', img: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+          { title: '商城', price: '选购', img: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1200&auto=format&fit=crop', href: 'shop.html' }
+        ],
+        worksCount: 17
+      },
+      xiangxiu: {
+        name: '湘绣大师', role: '传统与非遗 · 湘绣', loc: '中国 · 湖南长沙',
+        avatar: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=800&auto=format&fit=crop',
+        cover: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=2400&auto=format&fit=crop',
+        bio: ['湘绣大师工作室专注双面绣与动物题材，丝线劈极细，追求正反如一的神韵。', '与非遗策展团队合作，推动湘绣进入当代家居与服饰配件场景。'],
+        skills: [
+          { title: '双面绣', desc: '同纹异色或同形异景，考验针法与构图。' },
+          { title: '劈丝', desc: '将一根丝线劈为多股，表现绒毛与水墨过渡。' }
+        ],
+        works: [
+          { title: '湘绣·双面绣熊猫', price: '¥5,600', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop', href: 'product-detail.html?id=h5' },
+          { title: '传统与非遗', price: '浏览', img: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=1200&auto=format&fit=crop', href: 'heritage.html' },
+          { title: '苏绣围巾', price: '¥1,980', img: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop', href: 'shop.html' }
+        ],
+        worksCount: 21
+      }
+    };
+
+    function getSlug() {
+      const p = new URLSearchParams(window.location.search);
+      return (p.get('id') || p.get('slug') || '').trim().toLowerCase();
+    }
+
+    function render(a) {
+      document.getElementById('ap-notfound').style.display = 'none';
+      document.getElementById('ap-content').style.display = 'block';
+      document.title = a.name + ' - Blend Lumina';
+      document.getElementById('ap-cover').src = a.cover || a.avatar;
+      document.getElementById('ap-cover').alt = a.name + ' 封面';
+      document.getElementById('ap-avatar').src = a.avatar;
+      document.getElementById('ap-avatar').alt = a.name;
+      document.getElementById('ap-crumb-name').textContent = a.name;
+      document.getElementById('ap-name').textContent = a.name;
+      document.getElementById('ap-role').textContent = a.role;
+      document.getElementById('ap-loc').innerHTML = '<i class="fas fa-location-dot" style="margin-right:6px;opacity:0.85;"></i>' + a.loc;
+      document.getElementById('ap-bio').innerHTML = (a.bio || []).map(t => '<p>' + t + '</p>').join('');
+      document.getElementById('ap-skills').innerHTML = (a.skills || []).map(s =>
+        '<div class="ap-skill"><h3>' + s.title + '</h3><p>' + s.desc + '</p></div>'
+      ).join('');
+      document.getElementById('ap-works').innerHTML = (a.works || []).map(w =>
+        '<a class="ap-work" href="' + w.href + '"><img src="' + w.img + '" alt="' + w.title + '"><div class="ap-work-body"><div class="ap-work-title">' + w.title + '</div><div class="ap-work-price">' + w.price + '</div></div></a>'
+      ).join('');
+      document.getElementById('ap-st-works').textContent = (a.worksCount != null ? a.worksCount : (a.works || []).length) + ' 件';
+      document.getElementById('ap-st-field').textContent = (a.role || '').split('·')[0].trim() || '—';
+      document.getElementById('ap-st-loc').textContent = (a.loc || '').replace(/^中国 · /, '') || '—';
+      document.getElementById('ap-shop').href = 'shop.html?q=' + encodeURIComponent(a.name);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const slug = getSlug();
+      const a = ARTIST_DB[slug];
+      if (!slug || !a) {
+        document.getElementById('ap-notfound').style.display = 'block';
+        document.getElementById('ap-content').style.display = 'none';
+        document.title = '未找到 - Blend Lumina';
+        return;
+      }
+      render(a);
+    });
+  </script>
+</body>
+</html>
